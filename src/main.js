@@ -131,7 +131,7 @@ function generateSVG(data) {
   }
 }
 
-// 1. BENTO GRID ARCHITECTURE LAYOUT (Clean Minimal Aesthetics)
+// 1. BENTO GRID ARCHITECTURE LAYOUT
 function generateBentoSVG(data, t) {
   const allSkillsElements = renderAllSkillPills(data.selectedSkills, 0, 36, 430, 34, t.primary, t.secondary);
 
@@ -158,7 +158,7 @@ function generateBentoSVG(data, t) {
   <circle cx="950" cy="450" r="300" fill="url(#orbB)" filter="url(#blurBg)"/>
   <rect x="2" y="2" width="1176" height="606" rx="18" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="1.5"/>
 
-  <!-- TILE 1: MAIN HERO CARD (Top Left, 740x260) -->
+  <!-- TILE 1: MAIN HERO CARD -->
   <g transform="translate(24, 24)">
     <rect width="740" height="260" rx="18" fill="${t.cardBg}" opacity="0.85" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
     <g transform="translate(32, 32)">
@@ -183,7 +183,7 @@ function generateBentoSVG(data, t) {
     </g>
   </g>
 
-  <!-- TILE 2: FOCUS CARD (Top Right, 368x260) -->
+  <!-- TILE 2: FOCUS CARD -->
   <g transform="translate(788, 24)">
     <rect width="368" height="260" rx="18" fill="${t.cardBg}" opacity="0.85" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
     <g transform="translate(24, 24)">
@@ -198,7 +198,7 @@ function generateBentoSVG(data, t) {
     </g>
   </g>
 
-  <!-- TILE 3: TECH MATRIX (Bottom Left, 480x278) -->
+  <!-- TILE 3: TECH MATRIX -->
   <g transform="translate(24, 308)">
     <rect width="480" height="278" rx="18" fill="${t.cardBg}" opacity="0.85" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
     <g transform="translate(24, 24)">
@@ -208,7 +208,7 @@ function generateBentoSVG(data, t) {
     </g>
   </g>
 
-  <!-- TILE 4: PHILOSOPHY TILE (Bottom Middle, 350x278) -->
+  <!-- TILE 4: PHILOSOPHY TILE -->
   <g transform="translate(520, 308)">
     <rect width="350" height="278" rx="18" fill="${t.cardBg}" opacity="0.85" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
     <g transform="translate(24, 24)">
@@ -221,7 +221,7 @@ function generateBentoSVG(data, t) {
     </g>
   </g>
 
-  <!-- TILE 5: SOCIALS (Bottom Right, 268x278) -->
+  <!-- TILE 5: SOCIALS -->
   <g transform="translate(886, 308)">
     <rect width="270" height="278" rx="18" fill="${t.cardBg}" opacity="0.85" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
     <g transform="translate(20, 24)">
@@ -545,10 +545,10 @@ function showToast(msg) {
   }
   toast.textContent = msg;
   toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2800);
+  setTimeout(() => toast.classList.remove('show'), 3200);
 }
 
-// GitHub Profile Importer Logic
+// SMART GITHUB PROFILE & README AUTO-PARSER
 async function fetchGitHubProfile(query) {
   if (!query) return;
   
@@ -558,15 +558,33 @@ async function fetchGitHubProfile(query) {
   }
   username = username.replace('@', '');
 
-  showToast(`Fetching GitHub profile for @${username}...`);
+  showToast(`Fetching @${username} profile & README...`);
 
   try {
+    // 1. Fetch User Metadata
     const userRes = await fetch(`https://api.github.com/users/${username}`);
     if (!userRes.ok) {
       throw new Error(`User not found (${userRes.status})`);
     }
     const userData = await userRes.json();
 
+    // 2. Fetch User Profile README.md
+    let readmeText = '';
+    try {
+      const readmeRes = await fetch(`https://raw.githubusercontent.com/${username}/${username}/main/README.md`);
+      if (readmeRes.ok) {
+        readmeText = await readmeRes.text();
+      } else {
+        const masterRes = await fetch(`https://raw.githubusercontent.com/${username}/${username}/master/README.md`);
+        if (masterRes.ok) {
+          readmeText = await masterRes.text();
+        }
+      }
+    } catch (e) {
+      console.warn('Could not fetch README', e);
+    }
+
+    // 3. Fetch Top Repository Languages
     const repoRes = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=15`);
     let detectedLanguages = [];
     if (repoRes.ok) {
@@ -575,20 +593,40 @@ async function fetchGitHubProfile(query) {
       detectedLanguages = Array.from(new Set(langs));
     }
 
+    // Assign core profile metadata
     state.githubUser = userData.login || username;
     state.name = userData.name || userData.login || 'Developer';
-    state.subtitle = userData.bio ? `// ${userData.bio}` : '// Building awesome software';
     state.avatarUrl = userData.avatar_url || `https://github.com/${username}.png`;
     state.location = userData.location || 'Global';
     state.email = userData.email || `${username}@users.noreply.github.com`;
+    state.subtitle = userData.bio ? `// ${userData.bio}` : '// Building software & solving problems';
     state.headline = `Hi, I'm ${state.name}`;
     state.terminalTitle = `~/${username.toLowerCase()} — zsh`;
-    if (userData.company) {
-      state.primaryRole = userData.company;
-      state.education = userData.company;
+    state.primaryRole = userData.company || 'Software Engineer';
+    state.education = userData.company || 'Computer Science & Software Development';
+    state.focus = 'Open Source & Web Engineering';
+
+    // 4. Parse README Details if available
+    if (readmeText) {
+      const parsed = parseReadmeDetails(readmeText);
+      if (parsed.subtitle) state.subtitle = parsed.subtitle;
+      if (parsed.primaryRole) state.primaryRole = parsed.primaryRole;
+      if (parsed.focus) state.focus = parsed.focus;
+      if (parsed.quote) state.quote = parsed.quote;
+      if (parsed.quoteAuthor) state.quoteAuthor = parsed.quoteAuthor;
+      if (parsed.education) state.education = parsed.education;
+      if (parsed.location) state.location = parsed.location;
+
+      if (parsed.skills && parsed.skills.length > 0) {
+        parsed.skills.forEach(s => {
+          if (!detectedLanguages.includes(s)) detectedLanguages.push(s);
+        });
+      }
     }
 
+    // 5. Populate Skills
     if (detectedLanguages.length > 0) {
+      state.selectedSkills = [];
       detectedLanguages.forEach(lang => {
         if (!state.availableSkills.includes(lang)) {
           state.availableSkills.push(lang);
@@ -599,11 +637,77 @@ async function fetchGitHubProfile(query) {
       });
     }
 
-    showToast(`Profile imported for @${username}!`);
+    const readmeNotice = readmeText ? ' & Profile README parsed!' : '!';
+    showToast(`Successfully imported @${username}${readmeNotice}`);
     renderApp();
   } catch (err) {
     showToast(`Could not fetch @${username}: ${err.message}`);
   }
+}
+
+function parseReadmeDetails(markdown) {
+  const result = {
+    subtitle: '',
+    primaryRole: '',
+    focus: '',
+    quote: '',
+    quoteAuthor: '',
+    education: '',
+    location: '',
+    skills: []
+  };
+
+  const lines = markdown.split('\n').map(l => l.trim()).filter(Boolean);
+
+  // Extract Quotes (> ...)
+  const quoteLine = lines.find(l => l.startsWith('>') && l.length > 10);
+  if (quoteLine) {
+    const rawQuote = quoteLine.replace(/^>\s*/, '').replace(/^"|"$/g, '').trim();
+    if (rawQuote.includes('—') || rawQuote.includes('-')) {
+      const parts = rawQuote.split(/—|-/);
+      result.quote = parts[0].trim();
+      result.quoteAuthor = parts.slice(1).join('-').trim();
+    } else {
+      result.quote = rawQuote;
+      result.quoteAuthor = 'GitHub Profile Bio';
+    }
+  }
+
+  // Extract Focus / Working On (🔭 I’m currently working on ..., 🌱 I'm learning ...)
+  const focusLine = lines.find(l => /🔭|🌱|⚡|working on|building|focus|learning/i.test(l));
+  if (focusLine) {
+    const cleanFocus = focusLine.replace(/^[-*>]|\s*(🔭|🌱|⚡|💬|📫|😄)\s*/gi, '').trim();
+    if (cleanFocus.length > 5) {
+      result.focus = cleanFocus.slice(0, 55);
+    }
+  }
+
+  // Extract Bio / Role
+  const bioLine = lines.find(l => /I'm a|software engineer|developer|student|architect|creator|designer/i.test(l) && !l.startsWith('>'));
+  if (bioLine) {
+    const cleanBio = bioLine.replace(/^[-*#>]|\s*(👋|✨|🚀)\s*/gi, '').trim();
+    if (cleanBio.length > 5) {
+      result.subtitle = cleanBio.startsWith('//') ? cleanBio : `// ${cleanBio.slice(0, 65)}`;
+    }
+  }
+
+  // Common Skills Keywords in README
+  const knownTech = [
+    'Python', 'PyTorch', 'TensorFlow', 'JavaScript', 'TypeScript', 'React', 'Svelte', 'Vue',
+    'Node.js', 'Flask', 'Django', 'FastAPI', 'MySQL', 'PostgreSQL', 'MongoDB', 'Docker',
+    'AWS', 'Git', 'C', 'C++', 'C#', 'Java', 'Rust', 'Go', 'Pandas', 'NumPy', 'Scikit-Learn', 'Tailwind',
+    'GraphQL', 'Kubernetes', 'Linux', 'PHP', 'HTML', 'CSS', 'Ruby', 'Kotlin', 'Swift'
+  ];
+
+  knownTech.forEach(tech => {
+    const escaped = tech.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`(?:^|[^a-zA-Z0-9_])${escaped}(?:$|[^a-zA-Z0-9_])`, 'i');
+    if (regex.test(markdown)) {
+      result.skills.push(tech);
+    }
+  });
+
+  return result;
 }
 
 function renderApp() {
@@ -644,7 +748,7 @@ function renderApp() {
           <div class="section-title" style="color:#10b981;">
             Import Any GitHub Profile
           </div>
-          <p style="font-size:0.75rem; color:var(--text-muted);">Auto-fill profile identity, avatar, bio &amp; repository languages in 1-click!</p>
+          <p style="font-size:0.75rem; color:var(--text-muted);">Auto-fetch profile identity, avatar, bio &amp; Profile README in 1-click!</p>
           <div style="display:flex; gap:0.5rem;">
             <input type="text" class="form-control" id="inputGithubFetch" placeholder="e.g. torvalds, octocat, or github.com/..." style="flex:1;" />
             <button class="btn btn-primary" id="btnFetchProfile" style="padding:0.55rem 0.95rem; font-size:0.8rem;">Import Profile</button>
@@ -733,7 +837,6 @@ function renderApp() {
           </div>
         </div>
 
-        <!-- UPGRADED TECH STACK SKILLS SECTION -->
         <div class="editor-section">
           <div style="display:flex; align-items:center; justify-content:space-between;">
             <div class="section-title" style="margin:0;">Tech Stack Skills</div>
