@@ -674,18 +674,18 @@ function parseReadmeDetails(markdown) {
   }
 
   // Extract Focus / Working On (🔭 I’m currently working on ..., 🌱 I'm learning ...)
-  const focusLine = lines.find(l => /🔭|🌱|⚡|working on|building|focus|learning/i.test(l));
+  const focusLine = lines.find(l => /🔭|🌱|⚡|working on|building|focus|learning/i.test(l) && !l.includes('<img') && !l.includes('<a href'));
   if (focusLine) {
-    const cleanFocus = focusLine.replace(/^[-*>]|\s*(🔭|🌱|⚡|💬|📫|😄)\s*/gi, '').trim();
+    const cleanFocus = focusLine.replace(/<[^>]*>/g, '').replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/[*_#`~]/g, '').replace(/^[-*>]|\s*(🔭|🌱|⚡|💬|📫|😄)\s*/gi, '').trim();
     if (cleanFocus.length > 5) {
       result.focus = cleanFocus.slice(0, 55);
     }
   }
 
   // Extract Bio / Role
-  const bioLine = lines.find(l => /I'm a|software engineer|developer|student|architect|creator|designer/i.test(l) && !l.startsWith('>'));
+  const bioLine = lines.find(l => /I'm a|software engineer|developer|student|architect|creator|designer/i.test(l) && !l.startsWith('>') && !l.includes('<img') && !l.includes('<a href'));
   if (bioLine) {
-    const cleanBio = bioLine.replace(/^[-*#>]|\s*(👋|✨|🚀)\s*/gi, '').trim();
+    const cleanBio = bioLine.replace(/<[^>]*>/g, '').replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/[*_#`~]/g, '').replace(/^[-*#>]|\s*(👋|✨|🚀)\s*/gi, '').trim();
     if (cleanBio.length > 5) {
       result.subtitle = cleanBio.startsWith('//') ? cleanBio : `// ${cleanBio.slice(0, 65)}`;
     }
