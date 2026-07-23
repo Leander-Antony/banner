@@ -52,6 +52,7 @@ const state = {
   subtitle: '// AI/ML student & full-stack dev',
   statusText: 'available for opportunities',
   avatarUrl: 'https://github.com/Leander-Antony.png',
+  avatarDataUrl: '',
   terminalTitle: '~/leander-antony — zsh',
   headline: "Hi, I'm Leander Antony",
   location: 'India',
@@ -68,6 +69,63 @@ const state = {
     'AWS', 'Git', 'C', 'C++', 'Java', 'Rust', 'Go', 'Pandas', 'NumPy', 'Scikit-Learn'
   ]
 };
+
+// Convert image URL to Base64 Data URL so SVG image tags render inside GitHub READMEs
+async function fetchAvatarAsBase64(url) {
+  if (!url) return '';
+  if (url.startsWith('data:image/')) return url;
+
+  try {
+    const res = await fetch(url, { mode: 'cors' });
+    if (res.ok) {
+      const blob = await res.blob();
+      return await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result || url);
+        reader.onerror = () => resolve(url);
+        reader.readAsDataURL(blob);
+      });
+    }
+  } catch (e) {
+    // console.warn('CORS / fetch avatar failed, using canvas fallback...', e);
+  }
+
+  try {
+    return await new Promise((resolve) => {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => {
+        try {
+          const canvas = document.createElement('canvas');
+          canvas.width = img.naturalWidth || 200;
+          canvas.height = img.naturalHeight || 200;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0);
+          resolve(canvas.toDataURL('image/png'));
+        } catch (err) {
+          resolve(url);
+        }
+      };
+      img.onerror = () => resolve(url);
+      img.src = url;
+    });
+  } catch (err) {
+    return url;
+  }
+}
+
+async function syncAvatarBase64() {
+  if (!state.avatarUrl) {
+    state.avatarDataUrl = '';
+    updatePreview();
+    return;
+  }
+  const base64 = await fetchAvatarAsBase64(state.avatarUrl);
+  if (base64) {
+    state.avatarDataUrl = base64;
+    updatePreview();
+  }
+}
 
 // SVG Text Line Wrapping Helper
 function wrapText(text, maxCharsPerLine = 32) {
@@ -142,6 +200,8 @@ function generateBentoSVG(data, t) {
   const emailLen = (data.email || '').length;
   const emailFontSize = emailLen > 24 ? (emailLen > 30 ? 9.5 : 10.5) : 11.5;
 
+  const avatarSrc = data.avatarDataUrl || data.avatarUrl;
+
   return `<svg width="1180" height="610" viewBox="0 0 1180 610" xmlns="http://www.w3.org/2000/svg" role="img">
 <defs>
   <linearGradient id="bentoBg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${t.bg1}"/><stop offset="50%" stop-color="${t.bg2}"/><stop offset="100%" stop-color="${t.bg3}"/></linearGradient>
@@ -167,7 +227,7 @@ function generateBentoSVG(data, t) {
         <circle cx="75" cy="75" r="72" fill="none" stroke="${t.secondary}" stroke-width="1" opacity="0.4"/>
         <g clip-path="url(#avatarCircle)">
           <rect width="150" height="150" fill="${t.bg2}"/>
-          <image href="${escapeXML(data.avatarUrl)}" width="150" height="150" preserveAspectRatio="xMidYMid slice"/>
+          <image href="${escapeXML(avatarSrc)}" width="150" height="150" preserveAspectRatio="xMidYMid slice"/>
         </g>
       </g>
       <g transform="translate(180, 20)">
@@ -249,6 +309,8 @@ function generateHUDSVG(data, t) {
   const quoteLines = wrapText(`"${data.quote}"`, 42);
   const quoteTSpan = quoteLines.map((line, i) => `<text x="0" y="${i * 18}">${escapeXML(line)}</text>`).join('\n');
 
+  const avatarSrc = data.avatarDataUrl || data.avatarUrl;
+
   return `<svg width="1180" height="610" viewBox="0 0 1180 610" xmlns="http://www.w3.org/2000/svg" role="img">
 <defs>
   <linearGradient id="hudBg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${t.bg1}"/><stop offset="50%" stop-color="${t.bg2}"/><stop offset="100%" stop-color="${t.bg3}"/></linearGradient>
@@ -277,7 +339,7 @@ function generateHUDSVG(data, t) {
     <circle cx="210" cy="220" r="118" fill="none" stroke="${t.secondary}" stroke-width="2.5" opacity="0.8" filter="url(#neonGlow)"/>
     <g clip-path="url(#avatarHex)">
       <rect x="105" y="115" width="210" height="210" fill="${t.bg2}"/>
-      <image href="${escapeXML(data.avatarUrl)}" x="105" y="115" width="210" height="210" preserveAspectRatio="xMidYMid slice"/>
+      <image href="${escapeXML(avatarSrc)}" x="105" y="115" width="210" height="210" preserveAspectRatio="xMidYMid slice"/>
       <rect x="105" y="115" width="210" height="2" fill="${t.secondary}" opacity="0.7"><animate attributeName="y" values="115;325;115" dur="3s" repeatCount="indefinite"/></rect>
     </g>
     <text x="210" y="362" text-anchor="middle" font-family="'Fira Code', monospace" font-size="20" font-weight="700" fill="#ffffff">${escapeXML(data.name.toUpperCase())}</text>
@@ -339,6 +401,8 @@ function generateTerminalSVG(data, t) {
 
   const allSkillPills = renderAllSkillPills(data.selectedSkills, 490, 385, 630, 32, t.primary, t.secondary);
 
+  const avatarSrc = data.avatarDataUrl || data.avatarUrl;
+
   return `<svg width="1180" height="610" viewBox="0 0 1180 610" xmlns="http://www.w3.org/2000/svg" role="img">
 <defs>
   <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${t.bg1}"/><stop offset="50%" stop-color="${t.bg2}"/><stop offset="100%" stop-color="${t.bg3}"/></linearGradient>
@@ -358,7 +422,7 @@ function generateTerminalSVG(data, t) {
         <circle cx="230" cy="225" r="124" fill="none" stroke="${t.primary}" stroke-width="2.5" opacity="0.9" filter="url(#softGlow)"/>
         <g clip-path="url(#avatarClip)">
           <rect x="110" y="105" width="240" height="240" fill="${t.bg2}"/>
-          <image href="${escapeXML(data.avatarUrl)}" x="120" y="115" width="220" height="220" preserveAspectRatio="xMidYMid slice"/>
+          <image href="${escapeXML(avatarSrc)}" x="120" y="115" width="220" height="220" preserveAspectRatio="xMidYMid slice"/>
         </g>
       </g>
       <g transform="translate(58, 386)">
@@ -448,6 +512,8 @@ function generateVSCodeSVG(data, t) {
 function generateSynthwaveSVG(data, t) {
   const allSkillsElements = renderAllSkillPills(data.selectedSkills, 0, 8, 910, 32, '#38bdf8', '#ec4899');
 
+  const avatarSrc = data.avatarDataUrl || data.avatarUrl;
+
   return `<svg width="1180" height="610" viewBox="0 0 1180 610" xmlns="http://www.w3.org/2000/svg" role="img">
 <defs>
   <linearGradient id="synthSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0c0716"/><stop offset="60%" stop-color="#180b2a"/><stop offset="100%" stop-color="#281040"/></linearGradient>
@@ -481,7 +547,7 @@ function generateSynthwaveSVG(data, t) {
       <circle cx="100" cy="100" r="72" fill="none" stroke="#ec4899" stroke-width="2.5" filter="url(#synthGlow)"/>
       <g clip-path="url(#synthAvatarClip)">
         <rect x="35" y="35" width="130" height="130" fill="#180b2a"/>
-        <image href="${escapeXML(data.avatarUrl)}" x="35" y="35" width="130" height="130" preserveAspectRatio="xMidYMid slice"/>
+        <image href="${escapeXML(avatarSrc)}" x="35" y="35" width="130" height="130" preserveAspectRatio="xMidYMid slice"/>
       </g>
       <g transform="translate(0, 190)">
         <rect width="200" height="24" rx="12" fill="rgba(16,185,129,0.15)" stroke="#10b981" stroke-width="1"/>
@@ -639,6 +705,7 @@ async function fetchGitHubProfile(query) {
 
     const readmeNotice = readmeText ? ' & Profile README parsed!' : '!';
     showToast(`Successfully imported @${username}${readmeNotice}`);
+    await syncAvatarBase64();
     renderApp();
   } catch (err) {
     showToast(`Could not fetch @${username}: ${err.message}`);
@@ -934,7 +1001,15 @@ function attachEvents() {
   bindInput('inputPrimaryRole', 'primaryRole');
   bindInput('inputSubtitle', 'subtitle');
   bindInput('inputStatus', 'statusText');
-  bindInput('inputAvatar', 'avatarUrl');
+  
+  const avatarEl = document.getElementById('inputAvatar');
+  if (avatarEl) {
+    avatarEl.addEventListener('input', (e) => {
+      state.avatarUrl = e.target.value;
+      syncAvatarBase64();
+    });
+  }
+
   bindInput('inputLocation', 'location');
   bindInput('inputEducation', 'education');
   bindInput('inputFocus', 'focus');
@@ -977,4 +1052,7 @@ function attachEvents() {
   });
 }
 
-document.addEventListener('DOMContentLoaded', renderApp);
+document.addEventListener('DOMContentLoaded', () => {
+  renderApp();
+  syncAvatarBase64();
+});

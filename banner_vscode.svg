@@ -48,11 +48,11 @@
     
     <!-- Active File: portfolio.py -->
     <rect x="50" y="98" width="210" height="24" fill="#37373d"/>
-    <text x="88" y="114" fill="#38bdf8">🐍 portfolio.py</text>
+    <text x="88" y="114" fill="#38bdf8">portfolio.py</text>
     
-    <text x="88" y="138" fill="#858585">📄 skills.json</text>
-    <text x="88" y="162" fill="#858585">⚙️ config.yaml</text>
-    <text x="88" y="186" fill="#858585">📝 README.md</text>
+    <text x="88" y="138" fill="#858585">skills.json</text>
+    <text x="88" y="162" fill="#858585">config.yaml</text>
+    <text x="88" y="186" fill="#858585">README.md</text>
     <text x="70" y="214" fill="#858585">&gt; models/</text>
     <text x="70" y="238" fill="#858585">&gt; web_apps/</text>
   </g>
@@ -61,12 +61,12 @@
   <rect x="260" y="38" width="920" height="35" fill="#2d2d2d"/>
   <rect x="260" y="38" width="160" height="35" fill="#1e1e1e"/>
   <line x1="260" y1="38" x2="420" y2="38" stroke="#007acc" stroke-width="2"/>
-  <text x="280" y="60" font-family="'Consolas', monospace" font-size="12" fill="#ffffff">🐍 portfolio.py</text>
+  <text x="280" y="60" font-family="'Consolas', monospace" font-size="12" fill="#ffffff">portfolio.py</text>
   <text x="400" y="60" font-family="'Segoe UI', sans-serif" font-size="12" fill="#858585">×</text>
 
   <!-- BREADCRUMBS -->
   <rect x="260" y="73" width="920" height="22" fill="#1e1e1e"/>
-  <text x="280" y="88" font-family="'Consolas', monospace" font-size="11" fill="#a6a6a6">src &gt; 🐍 portfolio.py &gt; class Developer</text>
+  <text x="280" y="88" font-family="'Consolas', monospace" font-size="11" fill="#a6a6a6">src &gt; portfolio.py &gt; class Developer</text>
   <line x1="260" y1="95" x2="1180" y2="95" stroke="#282828" stroke-width="1"/>
 
   <!-- EDITOR CODE CONTENT & LINE NUMBERS -->
@@ -104,30 +104,24 @@
 
       <!-- Line 11: philosophy -->
       <text x="85" y="242"><tspan fill="#569CD6">def</tspan> <tspan fill="#DCDCAA">philosophy</tspan>(<tspan fill="#9CDCFE">self</tspan>):</text>
-      <text x="115" y="264"><tspan fill="#C586C0">return</tspan> <tspan fill="#CE9178">"Solving real-world problems with data &amp; relentless execution. ⚔️"</tspan></text>
-
-      <!-- Line 13: Execution -->
-      <text x="55" y="296"><tspan fill="#9CDCFE">me</tspan> = <tspan fill="#4EC9B0">Developer</tspan>()</text>
-      <text x="55" y="318"><tspan fill="#DCDCAA">print</tspan>(<tspan fill="#CE9178">f"Hi 👋, I&apos;m {</tspan><tspan fill="#9CDCFE">me</tspan>.name<tspan fill="#CE9178">}!"</tspan>)</text>
+      <text x="115" y="264"><tspan fill="#C586C0">return</tspan> <tspan fill="#CE9178">"Solving real-world problems with data &amp; relentless execution."</tspan></text>
     </g>
+
+    <text x="25" y="296" fill="#858585">15</text>
+    <text x="25" y="318" fill="#858585">16</text><text x="55" y="318"><tspan fill="#DCDCAA">print</tspan>(<tspan fill="#CE9178">f"Hi, I&apos;m {</tspan><tspan fill="#9CDCFE">me</tspan>.name<tspan fill="#CE9178">}!"</tspan>)</text>
   </g>
 
-  <!-- INTEGRATED TERMINAL (Bottom Panel, Height 140px) -->
-  <rect x="260" y="465" width="920" height="145" fill="#181818"/>
-  <line x1="260" y1="465" x2="1180" y2="465" stroke="#282828" stroke-width="1"/>
+  <!-- Integrated Terminal Panel -->
+  <rect x="250" y="440" width="930" height="170" fill="#181818"/>
+  <rect x="250" y="440" width="930" height="26" fill="#252526"/>
+  <text x="270" y="457" font-family="'Consolas', monospace" font-size="11" font-weight="700" fill="#cccccc">TERMINAL</text>
+  <text x="350" y="457" font-family="'Consolas', monospace" font-size="11" fill="#858585">PROBLEMS</text>
+  <text x="430" y="457" font-family="'Consolas', monospace" font-size="11" fill="#858585">OUTPUT</text>
+  <text x="490" y="457" font-family="'Consolas', monospace" font-size="11" fill="#858585">DEBUG CONSOLE</text>
 
-  <!-- Terminal Header -->
-  <g transform="translate(280, 485)">
-    <text font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#ffffff" letter-spacing="0.05em">TERMINAL</text>
-    <text x="80" font-family="'Segoe UI', sans-serif" font-size="11" fill="#858585">PROBLEMS</text>
-    <text x="160" font-family="'Segoe UI', sans-serif" font-size="11" fill="#858585">OUTPUT</text>
-    <text x="230" font-family="'Segoe UI', sans-serif" font-size="11" fill="#858585">DEBUG CONSOLE</text>
-  </g>
-
-  <!-- Terminal Output Text -->
-  <g transform="translate(280, 510)" font-family="'Consolas', 'Fira Code', monospace" font-size="12">
-    <text y="0" fill="#38bdf8">leander@dev-machine:~/portfolio$ <tspan fill="#ffffff">python3 portfolio.py</tspan></text>
-    <text y="20" fill="#00eb3c">Hi 👋, I'm Leander Antony!</text>
+  <g transform="translate(270, 484)" font-family="'Consolas', 'Fira Code', monospace" font-size="12">
+    <text y="0" fill="#38bdf8">dev@machine:~$ <tspan fill="#ffffff">python3 portfolio.py</tspan></text>
+    <text y="20" fill="#00eb3c">Hi, I'm Leander Antony!</text>
     <text y="38" fill="#cccccc">Loaded Skills: ['Python', 'PyTorch', 'TensorFlow', 'React', 'MySQL', 'Docker']</text>
     <text y="56" fill="#f59e0b">Active Task: Training LLM text game story generator model... [OK]</text>
   </g>

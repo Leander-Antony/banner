@@ -8,12 +8,13 @@ export default async function handler(req, res) {
     statusText = 'available for opportunities',
     layout = 'bento',
     theme = 'nordic_navy',
-    location = 'India 🇮🇳',
+    location = 'India',
     education = 'B.Tech AI & Data Science',
     focus = 'LLM Story Engine & ML Tools'
   } = req.query;
 
   const avatarUrl = `https://github.com/${username}.png`;
+  const avatarDataUrl = await fetchAvatarBase64(avatarUrl);
 
   const svg = `<svg width="1180" height="610" viewBox="0 0 1180 610" xmlns="http://www.w3.org/2000/svg" role="img">
 <defs>
@@ -34,7 +35,7 @@ export default async function handler(req, res) {
         <circle cx="75" cy="75" r="78" fill="none" stroke="#38bdf8" stroke-width="2.5" opacity="0.9" filter="url(#glowSoft)"/>
         <g clip-path="url(#avatarCircle)">
           <rect width="150" height="150" fill="#111c3d"/>
-          <image href="${avatarUrl}" width="150" height="150" preserveAspectRatio="xMidYMid slice"/>
+          <image href="${avatarDataUrl}" width="150" height="150" preserveAspectRatio="xMidYMid slice"/>
         </g>
       </g>
       <g transform="translate(180, 20)">
@@ -51,7 +52,7 @@ export default async function handler(req, res) {
   <g transform="translate(788, 24)">
     <rect width="368" height="260" rx="18" fill="#182752" opacity="0.85" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
     <g transform="translate(24, 24)">
-      <text x="0" y="16" font-family="'Fira Code', monospace" font-size="11" font-weight="700" fill="#818cf8">⚡ CURRENT FOCUS</text>
+      <text x="0" y="16" font-family="'Fira Code', monospace" font-size="11" font-weight="700" fill="#818cf8">CURRENT FOCUS</text>
       <text x="0" y="48" font-family="'Outfit', sans-serif" font-size="19" font-weight="700" fill="#ffffff">${escapeXML(focus)}</text>
       <text x="0" y="72" font-family="'Inter', sans-serif" font-size="12" fill="#9ca3af">Education: ${escapeXML(education)}</text>
     </g>
@@ -61,8 +62,8 @@ export default async function handler(req, res) {
   <g transform="translate(24, 308)">
     <rect width="480" height="278" rx="18" fill="#182752" opacity="0.85" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
     <g transform="translate(24, 24)">
-      <text x="0" y="16" font-family="'Fira Code', monospace" font-size="11" font-weight="700" fill="#38bdf8">💻 TECH MATRIX</text>
-      <text x="0" y="200" font-family="'Inter', sans-serif" font-size="12" fill="#9ca3af">📍 ${escapeXML(location)}</text>
+      <text x="0" y="16" font-family="'Fira Code', monospace" font-size="11" font-weight="700" fill="#38bdf8">TECH MATRIX</text>
+      <text x="0" y="200" font-family="'Inter', sans-serif" font-size="12" fill="#9ca3af">Location: ${escapeXML(location)}</text>
     </g>
   </g>
 
@@ -70,7 +71,7 @@ export default async function handler(req, res) {
   <g transform="translate(520, 308)">
     <rect width="350" height="278" rx="18" fill="#182752" opacity="0.85" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
     <g transform="translate(24, 24)">
-      <text x="0" y="16" font-family="'Fira Code', monospace" font-size="11" font-weight="700" fill="#38bdf8">⚔️ PERSONAL PHILOSOPHY</text>
+      <text x="0" y="16" font-family="'Fira Code', monospace" font-size="11" font-weight="700" fill="#38bdf8">PERSONAL PHILOSOPHY</text>
       <text x="0" y="66" font-family="'Georgia', serif" font-style="italic" font-size="14.5" fill="#f0f6fc">"When you decided to go to</text>
       <text x="0" y="90" font-family="'Georgia', serif" font-style="italic" font-size="14.5" fill="#f0f6fc">the sea, it was your own decision."</text>
       <text x="0" y="124" font-family="'Inter', sans-serif" font-size="12.5" fill="#38bdf8">— Roronoa Zoro (One Piece)</text>
@@ -81,7 +82,7 @@ export default async function handler(req, res) {
   <g transform="translate(886, 308)">
     <rect width="270" height="278" rx="18" fill="#182752" opacity="0.85" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
     <g transform="translate(20, 24)">
-      <text x="0" y="16" font-family="'Fira Code', monospace" font-size="11" font-weight="700" fill="#818cf8">🌐 CONNECT</text>
+      <text x="0" y="16" font-family="'Fira Code', monospace" font-size="11" font-weight="700" fill="#818cf8">CONNECT</text>
       <text x="0" y="55" font-family="'Fira Code', monospace" font-size="11.5" fill="#ffffff">github.com/${escapeXML(username)}</text>
     </g>
   </g>
@@ -104,3 +105,47 @@ function escapeXML(str) {
     }
   });
 }
+
+async function fetchAvatarBase64(url) {
+  if (!url) return '';
+  try {
+    if (typeof fetch === 'function') {
+      const res = await fetch(url, {
+        headers: { 'User-Agent': 'GitHub-Banner-Studio' }
+      });
+      if (res.ok) {
+        const mime = res.headers.get('content-type') || 'image/png';
+        const arrayBuf = await res.arrayBuffer();
+        const base64 = Buffer.from(arrayBuf).toString('base64');
+        return `data:${mime};base64,${base64}`;
+      }
+    }
+  } catch (e) {
+    // fallback below
+  }
+
+  return new Promise((resolve) => {
+    try {
+      const https = require('https');
+      const request = (targetUrl) => {
+        https.get(targetUrl, { headers: { 'User-Agent': 'GitHub-Banner-Studio' } }, (res) => {
+          if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
+            return request(res.headers.location);
+          }
+          if (res.statusCode !== 200) return resolve(url);
+          const chunks = [];
+          res.on('data', chunk => chunks.push(chunk));
+          res.on('end', () => {
+            const buf = Buffer.concat(chunks);
+            const mime = res.headers['content-type'] || 'image/png';
+            resolve(`data:${mime};base64,${buf.toString('base64')}`);
+          });
+        }).on('error', () => resolve(url));
+      };
+      request(url);
+    } catch (e) {
+      resolve(url);
+    }
+  });
+}
+
