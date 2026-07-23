@@ -1,0 +1,141 @@
+<svg width="1180" height="610" viewBox="0 0 1180 610" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" role="img" aria-label="Leander Antony Sci-Fi HUD Banner">
+<defs>
+  <!-- Refined Matte Dark Telemetry Background -->
+  <linearGradient id="hudBg" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0%" stop-color="#080c14"/>
+    <stop offset="50%" stop-color="#0d1522"/>
+    <stop offset="100%" stop-color="#06090f"/>
+  </linearGradient>
+
+  <filter id="neonGlow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+
+  <clipPath id="cardClipHUD"><rect width="1180" height="610" rx="20"/></clipPath>
+  <!-- Centered Avatar Clip Circle at cx=210, cy=220, r=105 -->
+  <clipPath id="avatarHex"><circle cx="210" cy="220" r="105"/></clipPath>
+</defs>
+
+<g clip-path="url(#cardClipHUD)">
+  <!-- Background Canvas -->
+  <rect width="1180" height="610" fill="url(#hudBg)"/>
+
+  <!-- Cyber Hex Grid Background Pattern -->
+  <g opacity="0.06">
+    <pattern id="hexPattern" width="40" height="69.282" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 20 11.547 L 0 0 L 0 23.094 L 20 34.641 L 40 23.094 Z M 0 34.641 L 20 46.188 L 40 34.641 L 40 57.735 L 20 69.282 L 0 57.735 Z" fill="none" stroke="#38bdf8" stroke-width="1"/>
+    </pattern>
+    <rect width="1180" height="610" fill="url(#hexPattern)"/>
+  </g>
+
+  <!-- Animated HUD Radar Pulse -->
+  <circle cx="210" cy="220" r="150" fill="none" stroke="#38bdf8" stroke-width="1" opacity="0.25">
+    <animate attributeName="r" values="150;185;150" dur="4s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.25;0;0.25" dur="4s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="210" cy="220" r="130" fill="none" stroke="#10b981" stroke-width="1.5" stroke-dasharray="8 8" opacity="0.4">
+    <animateTransform attributeName="transform" type="rotate" from="0 210 220" to="360 210 220" dur="15s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- HUD Corner Markers -->
+  <g stroke="#38bdf8" stroke-width="2" fill="none" opacity="0.6">
+    <path d="M 24 54 L 24 24 L 54 24"/>
+    <path d="M 1126 24 L 1156 24 L 1156 54"/>
+    <path d="M 24 556 L 24 586 L 54 586"/>
+    <path d="M 1126 586 L 1156 586 L 1156 556"/>
+  </g>
+
+  <!-- Top Telemetry Header -->
+  <g transform="translate(45, 45)">
+    <text font-family="'Fira Code', monospace" font-size="11" font-weight="700" fill="#38bdf8" letter-spacing="0.12em">[ OPERATOR_PROTOCOL: NEURAL_ENGINE_v3.8 ]</text>
+    <text x="940" font-family="'Fira Code', monospace" font-size="11" fill="#10b981">SYSTEM STATUS: ONLINE</text>
+    <line x1="0" y1="14" x2="1090" y2="14" stroke="rgba(56, 189, 248, 0.15)" stroke-width="1"/>
+  </g>
+
+  <!-- LEFT SECTION: PERFECTLY CENTERED TARGET LOCK AVATAR -->
+  <g transform="translate(45, 80)">
+    <!-- Outer HUD Ring centered at cx=210, cy=220 -->
+    <circle cx="210" cy="220" r="118" fill="none" stroke="#38bdf8" stroke-width="2.5" opacity="0.8" filter="url(#neonGlow)"/>
+    <circle cx="210" cy="220" r="110" fill="none" stroke="#10b981" stroke-width="1" stroke-dasharray="14 7" opacity="0.6">
+      <animateTransform attributeName="transform" type="rotate" from="360 210 220" to="0 210 220" dur="12s" repeatCount="indefinite"/>
+    </circle>
+    
+    <!-- Avatar Picture (centered image 210x210 at x=105, y=115) -->
+    <g clip-path="url(#avatarHex)">
+      <rect x="105" y="115" width="210" height="210" fill="#0d1522"/>
+      <image href="https://github.com/Leander-Antony.png" x="105" y="115" width="210" height="210" preserveAspectRatio="xMidYMid slice"/>
+      <!-- Scanline Beam Overlay -->
+      <rect x="105" y="115" width="210" height="2" fill="#38bdf8" opacity="0.7">
+        <animate attributeName="y" values="115;325;115" dur="3s" repeatCount="indefinite"/>
+      </rect>
+    </g>
+
+    <!-- Identification Readout -->
+    <text x="210" y="370" text-anchor="middle" font-family="'Fira Code', monospace" font-size="20" font-weight="700" fill="#ffffff" letter-spacing="0.04em">LEANDER ANTONY</text>
+    <text x="210" y="395" text-anchor="middle" font-family="'Fira Code', monospace" font-size="12" fill="#38bdf8">&lt; OPERATOR ID: #Leander-Antony &gt;</text>
+    <text x="210" y="415" text-anchor="middle" font-family="'Fira Code', monospace" font-size="11" fill="#8b949e">AI &amp; Data Science Student • India 🇮🇳</text>
+  </g>
+
+  <!-- RIGHT SECTION: TELEMETRY & DATA READOUTS -->
+  <g transform="translate(480, 95)">
+    <!-- Header Badge -->
+    <rect width="170" height="24" rx="6" fill="rgba(56,189,248,0.12)" stroke="#38bdf8" stroke-width="1"/>
+    <text x="85" y="16" text-anchor="middle" font-family="'Fira Code', monospace" font-size="11" font-weight="700" fill="#38bdf8">SYSTEM TELEMETRY</text>
+
+    <!-- Main Title -->
+    <text x="0" y="62" font-family="'Fira Code', monospace" font-size="26" font-weight="700" fill="#ffffff">AI &amp; DATA SCIENCE UNDERGRAD</text>
+    <text x="0" y="88" font-family="'Fira Code', monospace" font-size="14" fill="#10b981">&gt; Machine Learning // Deep Learning // Web Systems</text>
+
+    <line x1="0" y1="108" x2="630" y2="108" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+
+    <!-- Gauges & Progress Bars -->
+    <g transform="translate(0, 130)">
+      <!-- Metric 1 -->
+      <text x="0" y="0" font-family="'Fira Code', monospace" font-size="12" fill="#8b949e">NEURAL ARCHITECTURES &amp; ML (PYTORCH / TENSORFLOW)</text>
+      <text x="630" y="0" text-anchor="end" font-family="'Fira Code', monospace" font-size="12" font-weight="700" fill="#38bdf8">92% OPERATIONAL</text>
+      <rect y="10" width="630" height="8" rx="4" fill="#131d2e"/>
+      <rect y="10" width="580" height="8" rx="4" fill="#38bdf8" filter="url(#neonGlow)"/>
+
+      <!-- Metric 2 -->
+      <text x="0" y="48" font-family="'Fira Code', monospace" font-size="12" fill="#8b949e">FULL-STACK WEB ENGINE (REACT / FLASK / SVELTE)</text>
+      <text x="630" y="48" text-anchor="end" font-family="'Fira Code', monospace" font-size="12" font-weight="700" fill="#10b981">88% OPERATIONAL</text>
+      <rect y="58" width="630" height="8" rx="4" fill="#131d2e"/>
+      <rect y="58" width="554" height="8" rx="4" fill="#10b981" filter="url(#neonGlow)"/>
+
+      <!-- Metric 3 -->
+      <text x="0" y="96" font-family="'Fira Code', monospace" font-size="12" fill="#8b949e">LLM STORY ENGINE PROJECT (TEXT RPG NARRATIVE)</text>
+      <text x="630" y="96" text-anchor="end" font-family="'Fira Code', monospace" font-size="12" font-weight="700" fill="#f59e0b">ACTIVE IN DEVELOPMENT</text>
+      <rect y="106" width="630" height="8" rx="4" fill="#131d2e"/>
+      <rect y="106" width="480" height="8" rx="4" fill="#f59e0b"/>
+    </g>
+
+    <!-- Core Modules Pill Grid -->
+    <g transform="translate(0, 285)">
+      <text x="0" y="0" font-family="'Fira Code', monospace" font-size="11" font-weight="700" fill="#38bdf8" letter-spacing="0.1em">[ TECH MODULES &amp; TOOLKIT ]</text>
+      
+      <g transform="translate(0, 16)">
+        <rect width="105" height="28" rx="6" fill="rgba(56,189,248,0.1)" stroke="#38bdf8" stroke-width="1"/>
+        <text x="52.5" y="18" text-anchor="middle" font-family="'Fira Code', monospace" font-size="11" font-weight="600" fill="#ffffff">PyTorch</text>
+
+        <rect x="115" width="120" height="28" rx="6" fill="rgba(16,185,129,0.1)" stroke="#10b981" stroke-width="1"/>
+        <text x="175" y="18" text-anchor="middle" font-family="'Fira Code', monospace" font-size="11" font-weight="600" fill="#ffffff">TensorFlow</text>
+
+        <rect x="245" width="95" height="28" rx="6" fill="rgba(56,189,248,0.1)" stroke="#38bdf8" stroke-width="1"/>
+        <text x="292.5" y="18" text-anchor="middle" font-family="'Fira Code', monospace" font-size="11" font-weight="600" fill="#ffffff">Python</text>
+
+        <rect x="350" width="90" height="28" rx="6" fill="rgba(16,185,129,0.1)" stroke="#10b981" stroke-width="1"/>
+        <text x="395" y="18" text-anchor="middle" font-family="'Fira Code', monospace" font-size="11" font-weight="600" fill="#ffffff">React</text>
+
+        <rect x="450" width="90" height="28" rx="6" fill="rgba(56,189,248,0.1)" stroke="#38bdf8" stroke-width="1"/>
+        <text x="495" y="18" text-anchor="middle" font-family="'Fira Code', monospace" font-size="11" font-weight="600" fill="#ffffff">Docker</text>
+
+        <rect x="550" width="80" height="28" rx="6" fill="rgba(16,185,129,0.1)" stroke="#10b981" stroke-width="1"/>
+        <text x="590" y="18" text-anchor="middle" font-family="'Fira Code', monospace" font-size="11" font-weight="600" fill="#ffffff">MySQL</text>
+      </g>
+    </g>
+
+    <!-- Bottom Telemetry Footer -->
+    <g transform="translate(0, 370)">
+      <text x="0" y="0" font-family="'Fira Code', monospace" font-size="11" fill="#8b949e">LINK: <tspan fill="#38bdf8">github.com/Leander-Antony</tspan> | EMAIL: <tspan fill="#ffffff">leander.antony2023@gmail.com</tspan></text>
+    </g>
+  </g>
+</g>
+</svg>

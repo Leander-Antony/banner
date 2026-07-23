@@ -1,0 +1,135 @@
+<svg width="1180" height="610" viewBox="0 0 1180 610" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" role="img" aria-label="Leander Antony VS Code IDE Profile Banner">
+<defs>
+  <linearGradient id="vscodeBg" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0%" stop-color="#181818"/>
+    <stop offset="100%" stop-color="#1e1e1e"/>
+  </linearGradient>
+
+  <filter id="vsShadow"><feGaussianBlur stdDeviation="12" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+
+  <clipPath id="vsClip"><rect width="1180" height="610" rx="16"/></clipPath>
+</defs>
+
+<g clip-path="url(#vsClip)">
+  <!-- Outer Window Frame -->
+  <rect width="1180" height="610" fill="url(#vscodeBg)"/>
+  
+  <!-- TITLE BAR -->
+  <rect width="1180" height="38" fill="#323233"/>
+  <circle cx="20" cy="19" r="6" fill="#ff5f56"/>
+  <circle cx="40" cy="19" r="6" fill="#ffbd2e"/>
+  <circle cx="60" cy="19" r="6" fill="#27c93f"/>
+  <text x="590" y="24" text-anchor="middle" font-family="'Consolas', 'Fira Code', monospace" font-size="12" fill="#cccccc">leander_antony — portfolio.py — Visual Studio Code</text>
+
+  <!-- ACTIVITY BAR (Far Left, 50px width) -->
+  <rect y="38" width="50" height="572" fill="#333333"/>
+  <!-- File Explorer Icon -->
+  <g transform="translate(15, 55)" fill="#ffffff" opacity="0.9">
+    <path d="M14 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM4 16V4h10v12H4z"/>
+  </g>
+  <!-- Search Icon -->
+  <g transform="translate(15, 95)" fill="#858585">
+    <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+  </g>
+  <!-- Git Icon -->
+  <g transform="translate(15, 135)" fill="#858585">
+    <circle cx="6" cy="6" r="3"/><circle cx="18" cy="12" r="3"/><circle cx="6" cy="18" r="3"/>
+    <path d="M6 9v6M9 6h6a3 3 0 0 1 3 3v0" stroke="#858585" stroke-width="2"/>
+  </g>
+
+  <!-- SIDEBAR EXPLORER (Width 210px) -->
+  <rect x="50" y="38" width="210" height="572" fill="#252526"/>
+  <text x="65" y="60" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#bbbbbb" letter-spacing="0.05em">EXPLORER: LEANDER-ANTONY</text>
+  
+  <!-- File Tree Items -->
+  <g font-family="'Consolas', 'Fira Code', monospace" font-size="12">
+    <!-- Folder src -->
+    <text x="70" y="88" fill="#cccccc">v src</text>
+    
+    <!-- Active File: portfolio.py -->
+    <rect x="50" y="98" width="210" height="24" fill="#37373d"/>
+    <text x="88" y="114" fill="#38bdf8">🐍 portfolio.py</text>
+    
+    <text x="88" y="138" fill="#858585">📄 skills.json</text>
+    <text x="88" y="162" fill="#858585">⚙️ config.yaml</text>
+    <text x="88" y="186" fill="#858585">📝 README.md</text>
+    <text x="70" y="214" fill="#858585">&gt; models/</text>
+    <text x="70" y="238" fill="#858585">&gt; web_apps/</text>
+  </g>
+
+  <!-- TAB BAR -->
+  <rect x="260" y="38" width="920" height="35" fill="#2d2d2d"/>
+  <rect x="260" y="38" width="160" height="35" fill="#1e1e1e"/>
+  <line x1="260" y1="38" x2="420" y2="38" stroke="#007acc" stroke-width="2"/>
+  <text x="280" y="60" font-family="'Consolas', monospace" font-size="12" fill="#ffffff">🐍 portfolio.py</text>
+  <text x="400" y="60" font-family="'Segoe UI', sans-serif" font-size="12" fill="#858585">×</text>
+
+  <!-- BREADCRUMBS -->
+  <rect x="260" y="73" width="920" height="22" fill="#1e1e1e"/>
+  <text x="280" y="88" font-family="'Consolas', monospace" font-size="11" fill="#a6a6a6">src &gt; 🐍 portfolio.py &gt; class Developer</text>
+  <line x1="260" y1="95" x2="1180" y2="95" stroke="#282828" stroke-width="1"/>
+
+  <!-- EDITOR CODE CONTENT & LINE NUMBERS -->
+  <g transform="translate(260, 105)">
+    <!-- Line Numbers Sidebar -->
+    <g font-family="'Consolas', monospace" font-size="12.5" fill="#5a5a5a">
+      <text x="20" y="22">1</text><text x="20" y="44">2</text><text x="20" y="66">3</text>
+      <text x="20" y="88">4</text><text x="20" y="110">5</text><text x="20" y="132">6</text>
+      <text x="20" y="154">7</text><text x="20" y="176">8</text><text x="20" y="198">9</text>
+      <text x="15" y="220">10</text><text x="15" y="242">11</text><text x="15" y="264">12</text>
+      <text x="15" y="286">13</text><text x="15" y="308">14</text><text x="15" y="330">15</text>
+    </g>
+
+    <!-- Syntax Highlighted Code -->
+    <g font-family="'Consolas', 'Fira Code', monospace" font-size="13" font-weight="500">
+      <!-- Line 1: docstring -->
+      <text x="55" y="22" fill="#6A9955"># Author: Leander Antony | B.Tech Artificial Intelligence &amp; Data Science</text>
+      
+      <!-- Line 2: class declaration -->
+      <text x="55" y="44"><tspan fill="#569CD6">class</tspan> <tspan fill="#4EC9B0">Developer</tspan>:</text>
+
+      <!-- Line 3: __init__ -->
+      <text x="85" y="66"><tspan fill="#569CD6">def</tspan> <tspan fill="#DCDCAA">__init__</tspan>(<tspan fill="#9CDCFE">self</tspan>):</text>
+      <text x="115" y="88"><tspan fill="#9CDCFE">self</tspan>.name = <tspan fill="#CE9178">"Leander Antony"</tspan></text>
+      <text x="115" y="110"><tspan fill="#9CDCFE">self</tspan>.role = <tspan fill="#CE9178">"AI/ML Engineer &amp; Full-Stack Web Developer"</tspan></text>
+      <text x="115" y="132"><tspan fill="#9CDCFE">self</tspan>.location = <tspan fill="#CE9178">"India 🇮🇳"</tspan></text>
+
+      <!-- Line 7: get_skills -->
+      <text x="85" y="154"><tspan fill="#569CD6">def</tspan> <tspan fill="#DCDCAA">get_skills</tspan>(<tspan fill="#9CDCFE">self</tspan>) -&gt; <tspan fill="#4EC9B0">list</tspan>:</text>
+      <text x="115" y="176"><tspan fill="#C586C0">return</tspan> [<tspan fill="#CE9178">"Python"</tspan>, <tspan fill="#CE9178">"PyTorch"</tspan>, <tspan fill="#CE9178">"TensorFlow"</tspan>, <tspan fill="#CE9178">"React"</tspan>, <tspan fill="#CE9178">"MySQL"</tspan>, <tspan fill="#CE9178">"Docker"</tspan>]</text>
+
+      <!-- Line 9: current_project -->
+      <text x="85" y="198"><tspan fill="#569CD6">def</tspan> <tspan fill="#DCDCAA">current_project</tspan>(<tspan fill="#9CDCFE">self</tspan>):</text>
+      <text x="115" y="220"><tspan fill="#C586C0">return</tspan> <tspan fill="#CE9178">"LLM-based Interactive Text RPG Story Engine"</tspan></text>
+
+      <!-- Line 11: philosophy -->
+      <text x="85" y="242"><tspan fill="#569CD6">def</tspan> <tspan fill="#DCDCAA">philosophy</tspan>(<tspan fill="#9CDCFE">self</tspan>):</text>
+      <text x="115" y="264"><tspan fill="#C586C0">return</tspan> <tspan fill="#CE9178">"Solving real-world problems with data &amp; relentless execution. ⚔️"</tspan></text>
+
+      <!-- Line 13: Execution -->
+      <text x="55" y="296"><tspan fill="#9CDCFE">me</tspan> = <tspan fill="#4EC9B0">Developer</tspan>()</text>
+      <text x="55" y="318"><tspan fill="#DCDCAA">print</tspan>(<tspan fill="#CE9178">f"Hi 👋, I&apos;m {</tspan><tspan fill="#9CDCFE">me</tspan>.name<tspan fill="#CE9178">}!"</tspan>)</text>
+    </g>
+  </g>
+
+  <!-- INTEGRATED TERMINAL (Bottom Panel, Height 140px) -->
+  <rect x="260" y="465" width="920" height="145" fill="#181818"/>
+  <line x1="260" y1="465" x2="1180" y2="465" stroke="#282828" stroke-width="1"/>
+
+  <!-- Terminal Header -->
+  <g transform="translate(280, 485)">
+    <text font-family="'Segoe UI', sans-serif" font-size="11" font-weight="700" fill="#ffffff" letter-spacing="0.05em">TERMINAL</text>
+    <text x="80" font-family="'Segoe UI', sans-serif" font-size="11" fill="#858585">PROBLEMS</text>
+    <text x="160" font-family="'Segoe UI', sans-serif" font-size="11" fill="#858585">OUTPUT</text>
+    <text x="230" font-family="'Segoe UI', sans-serif" font-size="11" fill="#858585">DEBUG CONSOLE</text>
+  </g>
+
+  <!-- Terminal Output Text -->
+  <g transform="translate(280, 510)" font-family="'Consolas', 'Fira Code', monospace" font-size="12">
+    <text y="0" fill="#38bdf8">leander@dev-machine:~/portfolio$ <tspan fill="#ffffff">python3 portfolio.py</tspan></text>
+    <text y="20" fill="#00eb3c">Hi 👋, I'm Leander Antony!</text>
+    <text y="38" fill="#cccccc">Loaded Skills: ['Python', 'PyTorch', 'TensorFlow', 'React', 'MySQL', 'Docker']</text>
+    <text y="56" fill="#f59e0b">Active Task: Training LLM text game story generator model... [OK]</text>
+  </g>
+</g>
+</svg>

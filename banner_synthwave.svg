@@ -1,0 +1,95 @@
+<svg width="1180" height="610" viewBox="0 0 1180 610" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Leander Antony Retro Synthwave Banner">
+<defs>
+  <linearGradient id="synthSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0c0716"/><stop offset="60%" stop-color="#180b2a"/><stop offset="100%" stop-color="#281040"/></linearGradient>
+  <linearGradient id="synthSun" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f59e0b"/><stop offset="60%" stop-color="#ec4899"/><stop offset="100%" stop-color="#8b5cf6"/></linearGradient>
+  <filter id="synthGlow"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <clipPath id="synthClip"><rect width="1180" height="610" rx="20"/></clipPath>
+  <clipPath id="synthAvatarClip"><circle cx="100" cy="100" r="65"/></clipPath>
+</defs>
+<g clip-path="url(#synthClip)">
+  <!-- Sky Background -->
+  <rect width="1180" height="610" fill="url(#synthSky)"/>
+
+  <!-- Centered Retro Sun -->
+  <circle cx="590" cy="220" r="110" fill="url(#synthSun)" opacity="0.8" filter="url(#synthGlow)"/>
+  <g transform="translate(590, 220)" fill="#180b2a">
+    <rect x="-120" y="0" width="240" height="4"/>
+    <rect x="-120" y="14" width="240" height="6"/>
+    <rect x="-120" y="32" width="240" height="8"/>
+    <rect x="-120" y="54" width="240" height="11"/>
+    <rect x="-120" y="78" width="240" height="15"/>
+  </g>
+
+  <!-- 3D Grid Ground -->
+  <g transform="translate(0, 330)">
+    <line x1="0" y1="0" x2="1180" y2="0" stroke="#38bdf8" stroke-width="1.5" opacity="0.6"/>
+    <g stroke="rgba(56, 189, 248, 0.18)" stroke-width="1.2">
+      <line x1="590" y1="0" x2="-100" y2="280"/><line x1="590" y1="0" x2="150" y2="280"/>
+      <line x1="590" y1="0" x2="400" y2="280"/><line x1="590" y1="0" x2="600" y2="280"/>
+      <line x1="590" y1="0" x2="780" y2="280"/><line x1="590" y1="0" x2="1030" y2="280"/><line x1="590" y1="0" x2="1280" y2="280"/>
+    </g>
+    <g stroke="rgba(236, 72, 153, 0.35)" stroke-width="1">
+      <line x1="0" y1="20" x2="1180" y2="20"/><line x1="0" y1="50" x2="1180" y2="50"/><line x1="0" y1="90" x2="1180" y2="90"/><line x1="0" y1="145" x2="1180" y2="145"/><line x1="0" y1="215" x2="1180" y2="215"/>
+    </g>
+  </g>
+
+  <!-- HERO CARD FRAME (1000 x 500) -->
+  <g transform="translate(90, 55)">
+    <rect width="1000" height="500" rx="20" fill="rgba(18, 10, 32, 0.85)" stroke="rgba(236, 72, 153, 0.4)" stroke-width="1.5"/>
+
+    <!-- Left Block: Avatar & Status -->
+    <g transform="translate(45, 40)">
+      <circle cx="100" cy="100" r="72" fill="none" stroke="#ec4899" stroke-width="2.5" filter="url(#synthGlow)"/>
+      <g clip-path="url(#synthAvatarClip)">
+        <rect x="35" y="35" width="130" height="130" fill="#180b2a"/>
+        <image href="https://github.com/Leander-Antony.png" x="35" y="35" width="130" height="130" preserveAspectRatio="xMidYMid slice"/>
+      </g>
+      <!-- Status Badge -->
+      <g transform="translate(0, 190)">
+        <rect width="200" height="24" rx="12" fill="rgba(16,185,129,0.15)" stroke="#10b981" stroke-width="1"/>
+        <circle cx="15" cy="12" r="4" fill="#10b981"/>
+        <text x="28" y="16" font-family="'Fira Code', monospace" font-size="10.5" font-weight="600" fill="#10b981">AVAILABLE FOR OPPORTUNITIES</text>
+      </g>
+    </g>
+
+    <!-- Center/Right Block: Name & Subtitle -->
+    <g transform="translate(280, 45)">
+      <text font-family="'Outfit', sans-serif" font-size="34" font-weight="900" fill="#ffffff" letter-spacing="0.04em">LEANDER ANTONY</text>
+      <text y="28" font-family="'Fira Code', monospace" font-size="14" font-weight="600" fill="#38bdf8">✦ AI &amp; Data Science Student</text>
+      <text y="50" font-family="'Inter', sans-serif" font-size="12.5" fill="#9ca3af">// AI/ML student &amp; full-stack dev</text>
+    </g>
+
+    <!-- Details Grid -->
+    <g transform="translate(280, 140)" font-family="'Fira Code', monospace" font-size="12">
+      <text y="0" fill="#9ca3af">Education: <tspan fill="#ffffff" font-weight="600">B.Tech, Artificial Intelligence &amp; Data Science</tspan></text>
+      <text y="24" fill="#9ca3af">Location:  <tspan fill="#ffffff" font-weight="600">India 🇮🇳</tspan></text>
+      <text y="48" fill="#9ca3af">Current Focus: <tspan fill="#ec4899" font-weight="600">LLM Text Game &amp; Advanced ML Tools</tspan></text>
+      <text y="72" fill="#9ca3af">GitHub:    <tspan fill="#38bdf8" font-weight="600">github.com/Leander-Antony</tspan></text>
+      <text y="96" fill="#9ca3af">Email:     <tspan fill="#ffffff" font-weight="600">leander.antony2023@gmail.com</tspan></text>
+    </g>
+
+    <!-- Philosophy Quote Box -->
+    <g transform="translate(45, 290)">
+      <rect width="910" height="52" rx="10" fill="#110722" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+      <text x="20" y="24" font-family="'Georgia', serif" font-style="italic" font-size="13.5" fill="#f0f6fc">"When you decided to go to the sea, it was your own decision."</text>
+      <text x="20" y="42" font-family="'Fira Code', monospace" font-size="11" font-weight="600" fill="#ec4899">— Roronoa Zoro (One Piece)</text>
+    </g>
+
+    <!-- Skill Pills Row -->
+    <g transform="translate(45, 360)">
+      <text y="-8" font-family="'Fira Code', monospace" font-size="11" font-weight="700" fill="#38bdf8" letter-spacing="0.1em">⚡ TECH STACK &amp; TOOLKIT</text>
+      <g transform="translate(0, 8)">
+        <g transform="translate(0, 0)"><rect width="80" height="26" rx="10" fill="rgba(56,189,248,0.12)" stroke="#38bdf8" stroke-width="1"/><text x="40" y="17" text-anchor="middle" font-family="'Fira Code', monospace" font-size="11" font-weight="600" fill="#ffffff">Python</text></g>
+        <g transform="translate(88, 0)"><rect width="88" height="26" rx="10" fill="rgba(236,72,153,0.12)" stroke="#ec4899" stroke-width="1"/><text x="44" y="17" text-anchor="middle" font-family="'Fira Code', monospace" font-size="11" font-weight="600" fill="#ffffff">PyTorch</text></g>
+        <g transform="translate(184, 0)"><rect width="105" height="26" rx="10" fill="rgba(56,189,248,0.12)" stroke="#38bdf8" stroke-width="1"/><text x="52.5" y="17" text-anchor="middle" font-family="'Fira Code', monospace" font-size="11" font-weight="600" fill="#ffffff">TensorFlow</text></g>
+        <g transform="translate(297, 0)"><rect width="105" height="26" rx="10" fill="rgba(236,72,153,0.12)" stroke="#ec4899" stroke-width="1"/><text x="52.5" y="17" text-anchor="middle" font-family="'Fira Code', monospace" font-size="11" font-weight="600" fill="#ffffff">JavaScript</text></g>
+        <g transform="translate(410, 0)"><rect width="72" height="26" rx="10" fill="rgba(56,189,248,0.12)" stroke="#38bdf8" stroke-width="1"/><text x="36" y="17" text-anchor="middle" font-family="'Fira Code', monospace" font-size="11" font-weight="600" fill="#ffffff">React</text></g>
+        <g transform="translate(490, 0)"><rect width="78" height="26" rx="10" fill="rgba(236,72,153,0.12)" stroke="#ec4899" stroke-width="1"/><text x="39" y="17" text-anchor="middle" font-family="'Fira Code', monospace" font-size="11" font-weight="600" fill="#ffffff">Svelte</text></g>
+        <g transform="translate(576, 0)"><rect width="75" height="26" rx="10" fill="rgba(56,189,248,0.12)" stroke="#38bdf8" stroke-width="1"/><text x="37.5" y="17" text-anchor="middle" font-family="'Fira Code', monospace" font-size="11" font-weight="600" fill="#ffffff">MySQL</text></g>
+        <g transform="translate(659, 0)"><rect width="78" height="26" rx="10" fill="rgba(236,72,153,0.12)" stroke="#ec4899" stroke-width="1"/><text x="39" y="17" text-anchor="middle" font-family="'Fira Code', monospace" font-size="11" font-weight="600" fill="#ffffff">Docker</text></g>
+        <g transform="translate(745, 0)"><rect width="58" height="26" rx="10" fill="rgba(56,189,248,0.12)" stroke="#38bdf8" stroke-width="1"/><text x="29" y="17" text-anchor="middle" font-family="'Fira Code', monospace" font-size="11" font-weight="600" fill="#ffffff">Git</text></g>
+      </g>
+    </g>
+  </g>
+</g>
+</svg>
