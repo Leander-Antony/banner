@@ -725,7 +725,7 @@ function renderApp() {
         </div>
       </div>
       <div class="actions-bar">
-        <a href="https://github.com/Leander-Antony" target="_blank" class="btn btn-secondary" style="text-decoration:none;">
+        <a href="https://github.com/Leander-Antony/banner" target="_blank" class="btn btn-secondary" style="text-decoration:none;">
           GitHub Repo
         </a>
         <button class="btn btn-secondary" id="btnCopyCode">Copy SVG Code</button>
