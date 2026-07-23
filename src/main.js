@@ -3,44 +3,44 @@ import './style.css';
 // Handcrafted Developer Dark Themes
 const THEMES = {
   nordic_navy: {
-    name: 'Dark Slate',
-    bg1: '#09090b', bg2: '#09090b', bg3: '#09090b',
+    name: 'Nordic Slate',
+    bg1: '#0b1329', bg2: '#0b1329', bg3: '#0b1329',
     primary: '#10b981', secondary: '#38bdf8',
     glowA: 'transparent', glowB: 'transparent',
-    cardBg: '#121215', termBg: '#09090b', termHeader: '#18181b', stroke: '#27272a',
+    cardBg: '#111c3d', termBg: '#0b1329', termHeader: '#1a2954', stroke: '#1d2e61',
     pillBorderA: '#10b981', pillBorderB: '#38bdf8'
   },
   titanium: {
-    name: 'Minimalist Zinc',
+    name: 'Minimalist Titanium',
     bg1: '#09090b', bg2: '#09090b', bg3: '#09090b',
     primary: '#ffffff', secondary: '#a1a1aa',
     glowA: 'transparent', glowB: 'transparent',
-    cardBg: '#121215', termBg: '#09090b', termHeader: '#18181b', stroke: '#27272a',
+    cardBg: '#141417', termBg: '#09090b', termHeader: '#1c1c20', stroke: '#27272a',
     pillBorderA: '#ffffff', pillBorderB: '#a1a1aa'
   },
   emerald_slate: {
     name: 'Forest Emerald',
-    bg1: '#09090b', bg2: '#09090b', bg3: '#09090b',
+    bg1: '#06120e', bg2: '#06120e', bg3: '#06120e',
     primary: '#10b981', secondary: '#34d399',
     glowA: 'transparent', glowB: 'transparent',
-    cardBg: '#121215', termBg: '#09090b', termHeader: '#18181b', stroke: '#27272a',
+    cardBg: '#0e1d17', termBg: '#06120e', termHeader: '#152b22', stroke: '#1c382d',
     pillBorderA: '#10b981', pillBorderB: '#34d399'
   },
   monokai_matte: {
     name: 'Monokai Amber',
-    bg1: '#09090b', bg2: '#09090b', bg3: '#09090b',
-    primary: '#f59e0b', secondary: '#10b981',
+    bg1: '#121113', bg2: '#121113', bg3: '#121113',
+    primary: '#ffd866', secondary: '#a9dc76',
     glowA: 'transparent', glowB: 'transparent',
-    cardBg: '#121215', termBg: '#09090b', termHeader: '#18181b', stroke: '#27272a',
-    pillBorderA: '#f59e0b', pillBorderB: '#10b981'
+    cardBg: '#1d1c21', termBg: '#121113', termHeader: '#29272f', stroke: '#33303b',
+    pillBorderA: '#ffd866', pillBorderB: '#a9dc76'
   },
   obsidian_violet: {
     name: 'Midnight Obsidian',
-    bg1: '#09090b', bg2: '#09090b', bg3: '#09090b',
-    primary: '#a78bfa', secondary: '#38bdf8',
+    bg1: '#0c0a16', bg2: '#0c0a16', bg3: '#0c0a16',
+    primary: '#a78bfa', secondary: '#f472b6',
     glowA: 'transparent', glowB: 'transparent',
-    cardBg: '#121215', termBg: '#09090b', termHeader: '#18181b', stroke: '#27272a',
-    pillBorderA: '#a78bfa', pillBorderB: '#38bdf8'
+    cardBg: '#161326', termBg: '#0c0a16', termHeader: '#221c3d', stroke: '#2a234c',
+    pillBorderA: '#a78bfa', pillBorderB: '#f472b6'
   }
 };
 
@@ -233,17 +233,15 @@ function generateBentoSVG(data, t) {
   <clipPath id="avatarCircle"><circle cx="75" cy="75" r="70"/></clipPath>
 </defs>
 <g clip-path="url(#mainClip)">
-  <rect width="1180" height="610" fill="url(#bentoBg)"/>
-  <circle cx="200" cy="150" r="280" fill="url(#orbA)" filter="url(#blurBg)"/>
-  <circle cx="950" cy="450" r="300" fill="url(#orbB)" filter="url(#blurBg)"/>
-  <rect x="2" y="2" width="1176" height="606" rx="18" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="1.5"/>
+  <rect width="1180" height="610" fill="${t.bg1}"/>
+  <rect x="2" y="2" width="1176" height="606" rx="18" fill="none" stroke="${t.stroke}" stroke-width="1.5"/>
 
   <!-- TILE 1: MAIN HERO CARD -->
   <g transform="translate(24, 24)">
-    <rect width="740" height="260" rx="18" fill="${t.cardBg}" opacity="0.85" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+    <rect width="740" height="260" rx="18" fill="${t.cardBg}" stroke="${t.stroke}" stroke-width="1"/>
     <g transform="translate(32, 32)">
       <g>
-        <circle cx="75" cy="75" r="78" fill="none" stroke="${t.primary}" stroke-width="2.5" opacity="0.9" filter="url(#glowSoft)"/>
+        <circle cx="75" cy="75" r="78" fill="none" stroke="${t.primary}" stroke-width="2.5" opacity="0.9"/>
         <circle cx="75" cy="75" r="72" fill="none" stroke="${t.secondary}" stroke-width="1" opacity="0.4"/>
         <g clip-path="url(#avatarCircle)">
           <rect width="150" height="150" fill="${t.bg2}"/>
@@ -253,7 +251,7 @@ function generateBentoSVG(data, t) {
       <g transform="translate(180, 16)">
         <g>
           <rect width="210" height="26" rx="13" fill="rgba(${hexToRgb(t.primary)},0.12)" stroke="${t.primary}" stroke-width="1"/>
-          <circle cx="16" cy="13" r="4" fill="${t.primary}" filter="url(#glowSoft)"><animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite"/></circle>
+          <circle cx="16" cy="13" r="4" fill="${t.primary}"><animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite"/></circle>
           <text x="28" y="17" font-family="'Consolas', 'Fira Code', monospace" font-size="11.5" font-weight="600" fill="${t.primary}">${escapeXML(data.statusText.toUpperCase())}</text>
         </g>
         <text x="0" y="62" font-family="'Outfit', sans-serif" font-size="${nameFontSize}" font-weight="800" fill="#ffffff">${escapeXML(data.name)}</text>
@@ -265,7 +263,7 @@ function generateBentoSVG(data, t) {
 
   <!-- TILE 2: FOCUS CARD -->
   <g transform="translate(788, 24)">
-    <rect width="368" height="260" rx="18" fill="${t.cardBg}" opacity="0.85" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+    <rect width="368" height="260" rx="18" fill="${t.cardBg}" stroke="${t.stroke}" stroke-width="1"/>
     <g transform="translate(24, 24)">
       <text x="0" y="16" font-family="'Fira Code', monospace" font-size="11" font-weight="700" fill="${t.secondary}" letter-spacing="0.1em">CURRENT FOCUS &amp; PROJECTS</text>
       <text x="0" y="46" font-family="'Outfit', sans-serif" font-size="16.5" font-weight="700" fill="#ffffff">${focusTSpans}</text>
@@ -280,7 +278,7 @@ function generateBentoSVG(data, t) {
 
   <!-- TILE 3: TECH MATRIX -->
   <g transform="translate(24, 308)">
-    <rect width="480" height="278" rx="18" fill="${t.cardBg}" opacity="0.85" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+    <rect width="480" height="278" rx="18" fill="${t.cardBg}" stroke="${t.stroke}" stroke-width="1"/>
     <g transform="translate(24, 24)">
       <text x="0" y="16" font-family="'Fira Code', monospace" font-size="11" font-weight="700" fill="${t.primary}" letter-spacing="0.1em">TECH MATRIX &amp; SKILLS</text>
       <g>${allSkillsElements}</g>
@@ -290,7 +288,7 @@ function generateBentoSVG(data, t) {
 
   <!-- TILE 4: PHILOSOPHY TILE -->
   <g transform="translate(520, 308)">
-    <rect width="350" height="278" rx="18" fill="${t.cardBg}" opacity="0.85" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+    <rect width="350" height="278" rx="18" fill="${t.cardBg}" stroke="${t.stroke}" stroke-width="1"/>
     <g transform="translate(24, 24)">
       <text x="0" y="16" font-family="'Fira Code', monospace" font-size="11" font-weight="700" fill="${t.primary}" letter-spacing="0.1em">PERSONAL PHILOSOPHY</text>
       <line x1="0" y1="30" x2="302" y2="30" stroke="${t.primary}" stroke-width="1.5" opacity="0.6"/>
@@ -303,17 +301,17 @@ function generateBentoSVG(data, t) {
 
   <!-- TILE 5: SOCIALS -->
   <g transform="translate(886, 308)">
-    <rect width="270" height="278" rx="18" fill="${t.cardBg}" opacity="0.85" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+    <rect width="270" height="278" rx="18" fill="${t.cardBg}" stroke="${t.stroke}" stroke-width="1"/>
     <g transform="translate(20, 24)">
       <text x="0" y="16" font-family="'Fira Code', monospace" font-size="11" font-weight="700" fill="${t.secondary}" letter-spacing="0.1em">CONNECT &amp; LINKS</text>
       <g transform="translate(0, 36)">
-        <rect width="230" height="34" rx="10" fill="#111c3d"/>
+        <rect width="230" height="34" rx="10" fill="${t.termHeader}"/>
         <text x="15" y="21" font-family="'Fira Code', monospace" font-size="11" fill="#ffffff">github.com/${escapeXML(data.githubUser)}</text>
         
-        <rect y="46" width="230" height="34" rx="10" fill="#111c3d"/>
+        <rect y="46" width="230" height="34" rx="10" fill="${t.termHeader}"/>
         <text x="15" y="67" font-family="'Fira Code', monospace" font-size="${emailFontSize}" fill="#ffffff">${escapeXML(data.email)}</text>
 
-        <rect y="92" width="230" height="34" rx="10" fill="#111c3d"/>
+        <rect y="92" width="230" height="34" rx="10" fill="${t.termHeader}"/>
         <text x="15" y="113" font-family="'Fira Code', monospace" font-size="11" fill="${t.primary}">${escapeXML(data.location)}</text>
       </g>
     </g>
