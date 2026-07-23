@@ -3,48 +3,49 @@ import './style.css';
 // Handcrafted Developer Dark Themes
 const THEMES = {
   nordic_navy: {
-    name: 'Nordic Slate',
-    bg1: '#0b1329', bg2: '#111c3d', bg3: '#070c1a',
-    primary: '#38bdf8', secondary: '#818cf8',
-    glowA: '#38bdf8', glowB: '#818cf8',
-    cardBg: '#182752', termBg: '#111c3d', termHeader: '#1d2e61',
-    pillBorderA: '#38bdf8', pillBorderB: '#818cf8'
+    name: 'Dark Slate',
+    bg1: '#09090b', bg2: '#09090b', bg3: '#09090b',
+    primary: '#10b981', secondary: '#38bdf8',
+    glowA: 'transparent', glowB: 'transparent',
+    cardBg: '#121215', termBg: '#09090b', termHeader: '#18181b', stroke: '#27272a',
+    pillBorderA: '#10b981', pillBorderB: '#38bdf8'
   },
   titanium: {
-    name: 'Minimalist Titanium',
-    bg1: '#09090b', bg2: '#121215', bg3: '#050506',
-    primary: '#e4e4e7', secondary: '#9ca3af',
-    glowA: '#71717a', glowB: '#52525b',
-    cardBg: '#18181b', termBg: '#121215', termHeader: '#1c1c20',
-    pillBorderA: '#e4e4e7', pillBorderB: '#71717a'
+    name: 'Minimalist Zinc',
+    bg1: '#09090b', bg2: '#09090b', bg3: '#09090b',
+    primary: '#ffffff', secondary: '#a1a1aa',
+    glowA: 'transparent', glowB: 'transparent',
+    cardBg: '#121215', termBg: '#09090b', termHeader: '#18181b', stroke: '#27272a',
+    pillBorderA: '#ffffff', pillBorderB: '#a1a1aa'
   },
   emerald_slate: {
     name: 'Forest Emerald',
-    bg1: '#090e17', bg2: '#0f1726', bg3: '#060910',
-    primary: '#10b981', secondary: '#38bdf8',
-    glowA: '#10b981', glowB: '#38bdf8',
-    cardBg: '#152033', termBg: '#0f1726', termHeader: '#1a273d',
-    pillBorderA: '#10b981', pillBorderB: '#38bdf8'
+    bg1: '#09090b', bg2: '#09090b', bg3: '#09090b',
+    primary: '#10b981', secondary: '#34d399',
+    glowA: 'transparent', glowB: 'transparent',
+    cardBg: '#121215', termBg: '#09090b', termHeader: '#18181b', stroke: '#27272a',
+    pillBorderA: '#10b981', pillBorderB: '#34d399'
   },
   monokai_matte: {
-    name: 'Monokai Warm',
-    bg1: '#141315', bg2: '#1e1c21', bg3: '#0d0c0e',
-    primary: '#ffd866', secondary: '#a9dc76',
-    glowA: '#ffd866', glowB: '#a9dc76',
-    cardBg: '#26242b', termBg: '#1e1c21', termHeader: '#2f2d36',
-    pillBorderA: '#ffd866', pillBorderB: '#a9dc76'
+    name: 'Monokai Amber',
+    bg1: '#09090b', bg2: '#09090b', bg3: '#09090b',
+    primary: '#f59e0b', secondary: '#10b981',
+    glowA: 'transparent', glowB: 'transparent',
+    cardBg: '#121215', termBg: '#09090b', termHeader: '#18181b', stroke: '#27272a',
+    pillBorderA: '#f59e0b', pillBorderB: '#10b981'
   },
   obsidian_violet: {
     name: 'Midnight Obsidian',
-    bg1: '#0a0814', bg2: '#120f24', bg3: '#06050d',
-    primary: '#a78bfa', secondary: '#f472b6',
-    glowA: '#a78bfa', glowB: '#f472b6',
-    cardBg: '#1a1633', termBg: '#120f24', termHeader: '#221c42',
-    pillBorderA: '#a78bfa', pillBorderB: '#f472b6'
+    bg1: '#09090b', bg2: '#09090b', bg3: '#09090b',
+    primary: '#a78bfa', secondary: '#38bdf8',
+    glowA: 'transparent', glowB: 'transparent',
+    cardBg: '#121215', termBg: '#09090b', termHeader: '#18181b', stroke: '#27272a',
+    pillBorderA: '#a78bfa', pillBorderB: '#38bdf8'
   }
 };
 
 const state = {
+  currentView: 'landing', // 'landing' | 'studio'
   layout: 'bento',
   theme: 'nordic_navy',
   name: 'Alex Rivera',
@@ -197,10 +198,29 @@ function generateBentoSVG(data, t) {
   const quoteTSpan = quoteLines.map((line, i) => `<text x="0" y="${64 + i * 22}">${escapeXML(line)}</text>`).join('\n');
   const authorY = 64 + quoteLines.length * 22 + 10;
 
+  const avatarSrc = data.avatarDataUrl || data.avatarUrl;
   const emailLen = (data.email || '').length;
   const emailFontSize = emailLen > 24 ? (emailLen > 30 ? 9.5 : 10.5) : 11.5;
 
-  const avatarSrc = data.avatarDataUrl || data.avatarUrl;
+  // Dynamic font sizes and wrapping for Bento Grid elements
+  const nameLen = (data.name || '').length;
+  const nameFontSize = nameLen > 22 ? 22 : (nameLen > 16 ? 26 : 30);
+
+  const roleLen = (data.primaryRole || '').length;
+  const roleFontSize = roleLen > 35 ? 12.5 : 14;
+
+  const focusLines = wrapText(data.focus, 25).slice(0, 3);
+  const focusTSpans = focusLines.map((line, idx) => 
+    `<tspan x="0" dy="${idx === 0 ? 0 : 22}">${escapeXML(line)}</tspan>`
+  ).join('');
+
+  const eduY = 48 + Math.max(focusLines.length - 1, 0) * 22 + 26;
+  const eduLines = wrapText(`Education: ${data.education}`, 34).slice(0, 2);
+  const eduTSpans = eduLines.map((line, idx) => 
+    `<tspan x="0" dy="${idx === 0 ? 0 : 18}">${escapeXML(line)}</tspan>`
+  ).join('');
+
+  const progressY = Math.max(eduY + Math.max(eduLines.length - 1, 0) * 18 + 26, 150);
 
   return `<svg width="1180" height="610" viewBox="0 0 1180 610" xmlns="http://www.w3.org/2000/svg" role="img">
 <defs>
@@ -230,15 +250,15 @@ function generateBentoSVG(data, t) {
           <image href="${escapeXML(avatarSrc)}" width="150" height="150" preserveAspectRatio="xMidYMid slice"/>
         </g>
       </g>
-      <g transform="translate(180, 20)">
+      <g transform="translate(180, 16)">
         <g>
           <rect width="210" height="26" rx="13" fill="rgba(${hexToRgb(t.primary)},0.12)" stroke="${t.primary}" stroke-width="1"/>
           <circle cx="16" cy="13" r="4" fill="${t.primary}" filter="url(#glowSoft)"><animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite"/></circle>
           <text x="28" y="17" font-family="'Consolas', 'Fira Code', monospace" font-size="11.5" font-weight="600" fill="${t.primary}">${escapeXML(data.statusText.toUpperCase())}</text>
         </g>
-        <text x="0" y="65" font-family="'Outfit', sans-serif" font-size="32" font-weight="800" fill="#ffffff">${escapeXML(data.name)}</text>
-        <text x="0" y="94" font-family="'Fira Code', monospace" font-size="14.5" font-weight="600" fill="${t.primary}">✦ ${escapeXML(data.primaryRole)}</text>
-        <text x="0" y="124" font-family="'Inter', sans-serif" font-size="13" fill="#9ca3af">${escapeXML(data.subtitle)}</text>
+        <text x="0" y="62" font-family="'Outfit', sans-serif" font-size="${nameFontSize}" font-weight="800" fill="#ffffff">${escapeXML(data.name)}</text>
+        <text x="0" y="92" font-family="'Fira Code', monospace" font-size="${roleFontSize}" font-weight="600" fill="${t.primary}">✦ ${escapeXML(data.primaryRole)}</text>
+        <text x="0" y="122" font-family="'Inter', sans-serif" font-size="12.5" fill="#9ca3af">${escapeXML(data.subtitle)}</text>
       </g>
     </g>
   </g>
@@ -248,12 +268,12 @@ function generateBentoSVG(data, t) {
     <rect width="368" height="260" rx="18" fill="${t.cardBg}" opacity="0.85" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
     <g transform="translate(24, 24)">
       <text x="0" y="16" font-family="'Fira Code', monospace" font-size="11" font-weight="700" fill="${t.secondary}" letter-spacing="0.1em">CURRENT FOCUS &amp; PROJECTS</text>
-      <text x="0" y="48" font-family="'Outfit', sans-serif" font-size="18" font-weight="700" fill="#ffffff">${escapeXML(data.focus)}</text>
-      <text x="0" y="74" font-family="'Inter', sans-serif" font-size="12" fill="#9ca3af">Education: ${escapeXML(data.education)}</text>
-      <g transform="translate(0, 105)">
+      <text x="0" y="46" font-family="'Outfit', sans-serif" font-size="16.5" font-weight="700" fill="#ffffff">${focusTSpans}</text>
+      <text x="0" y="${eduY}" font-family="'Inter', sans-serif" font-size="12" fill="#9ca3af">${eduTSpans}</text>
+      <g transform="translate(0, ${progressY})">
         <rect width="320" height="8" rx="4" fill="#0d1117"/>
         <rect width="240" height="8" rx="4" fill="${t.primary}"/>
-        <text x="0" y="28" font-family="'Fira Code', monospace" font-size="11" fill="#9ca3af">Active Progress: <tspan fill="${t.primary}" font-weight="700">In Development</tspan></text>
+        <text x="0" y="26" font-family="'Fira Code', monospace" font-size="10.5" fill="#9ca3af">Active Progress: <tspan fill="${t.primary}" font-weight="700">In Development</tspan></text>
       </g>
     </g>
   </g>
@@ -781,7 +801,7 @@ function renderApp() {
   const app = document.getElementById('app');
   app.innerHTML = `
     <header class="header">
-      <div class="brand">
+      <div class="brand" style="cursor:pointer;" id="navBrand">
         <div class="brand-icon">&lt;/&gt;</div>
         <div class="brand-text">
           <div class="brand-text-container">
@@ -791,15 +811,233 @@ function renderApp() {
           <p>Handcrafted Dynamic Developer Profile Cards</p>
         </div>
       </div>
+
+      <div class="nav-links">
+        <button class="nav-link ${state.currentView === 'landing' ? 'active' : ''}" id="navHome">Home</button>
+        <button class="nav-link" id="navFeatures">Features</button>
+        <button class="nav-link" id="navArchitectures">Templates</button>
+        <button class="nav-link" id="navShowcase">Showcase</button>
+      </div>
+
       <div class="actions-bar">
+        <div class="view-tabs">
+          <button class="tab-btn ${state.currentView === 'landing' ? 'active' : ''}" id="tabLanding">Home</button>
+          <button class="tab-btn ${state.currentView === 'studio' ? 'active' : ''}" id="tabStudio">Studio</button>
+        </div>
         <a href="https://github.com/Leander-Antony/banner" target="_blank" class="btn btn-secondary" style="text-decoration:none;">
           GitHub Repo
         </a>
-        <button class="btn btn-secondary" id="btnCopyCode">Copy SVG Code</button>
-        <button class="btn btn-primary" id="btnDownload">Download SVG</button>
       </div>
     </header>
 
+    <div id="viewContainer">
+      ${state.currentView === 'landing' ? renderLandingHTML() : renderStudioHTML()}
+    </div>
+
+    <footer class="footer">
+      <div>
+        <strong style="color:#fff;">GitHub Profile Banner Studio</strong> &mdash; Built by <a href="https://www.linkedin.com/in/leanderantony/" target="_blank" style="color:#ffffff; text-decoration:underline;">Leander Antony</a>.
+      </div>
+      <div class="footer-links">
+        <a href="https://github.com/Leander-Antony/banner" target="_blank">GitHub Repo</a>
+        <a href="https://banner.iamleander.me/" target="_blank">Live Studio</a>
+        <a href="https://www.linkedin.com/in/leanderantony/" target="_blank">Leander Antony</a>
+      </div>
+    </footer>
+  `;
+
+  updatePreview();
+  attachGlobalEvents();
+}
+
+function renderLandingHTML() {
+  return `
+    <div class="landing-container">
+      <!-- Hero Section -->
+      <section class="hero-section">
+        <div class="hero-badge">
+          <span>GITHUB PROFILE VECTOR BANNERS</span>
+        </div>
+        <h1 class="hero-title">
+          Handcrafted Vector Banners for Your GitHub README
+        </h1>
+        <p class="hero-subtitle">
+          Generate custom Bento Grids, Cyberpunk HUDs, Terminal Splits, and VS Code Banners in crisp SVG vector format. Import your GitHub profile in one click.
+        </p>
+
+        <div class="hero-actions">
+          <button class="btn btn-solid-primary btn-large" id="btnLaunchStudioHero">
+            Launch Studio &rarr;
+          </button>
+          <a href="https://github.com/Leander-Antony/banner" target="_blank" class="btn btn-secondary btn-large" style="text-decoration:none;">
+            GitHub Repository
+          </a>
+        </div>
+
+        <!-- Hero Live Interactive Preview Box -->
+        <div class="hero-preview-box">
+          <div class="hero-preview-header">
+            <div class="preview-title"><span class="preview-badge"></span> Live Interactive Canvas</div>
+            <div class="hero-preview-selector">
+              <button class="preset-btn ${state.layout==='bento'?'active':''}" data-hero-layout="bento">Bento Grid</button>
+              <button class="preset-btn ${state.layout==='hud'?'active':''}" data-hero-layout="hud">Sci-Fi HUD</button>
+              <button class="preset-btn ${state.layout==='terminal'?'active':''}" data-hero-layout="terminal">Terminal</button>
+              <button class="preset-btn ${state.layout==='vscode'?'active':''}" data-hero-layout="vscode">VS Code</button>
+              <button class="preset-btn ${state.layout==='synthwave'?'active':''}" data-hero-layout="synthwave">Synthwave</button>
+            </div>
+          </div>
+          <div class="svg-wrapper" id="svgPreview"></div>
+          <div style="margin-top:1rem; display:flex; justify-content:center;">
+            <button class="btn btn-solid-primary" id="btnCustomizeInStudio">Open This Template in Studio &rarr;</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Features Section -->
+      <section id="features" class="landing-section">
+        <div class="section-header">
+          <span class="section-tag">// ARCHITECTURE & FEATURES</span>
+          <h2 class="section-heading">Built for Open-Source Developers</h2>
+          <p class="section-desc">Designed with clean vector typography, self-contained images, and multi-layout support.</p>
+        </div>
+
+        <div class="features-grid" style="margin-top:2.5rem;">
+          <div class="feature-card">
+            <div class="feature-icon-badge">01</div>
+            <h3>1-Click Profile Sync</h3>
+            <p>Automatically pull bio, avatar, location, and top tech stack directly from the public GitHub API and README.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon-badge">02</div>
+            <h3>5 Architectural Layouts</h3>
+            <p>Switch instantly between Bento Grid, Cyberpunk Telemetry HUD, Terminal Split, VS Code IDE, and Retro Synthwave layouts.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon-badge">03</div>
+            <h3>Inline Base64 Encoding</h3>
+            <p>Converts avatar URLs into inline Base64 Data URIs so images render reliably inside GitHub markdown <code>&lt;img&gt;</code> tags.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon-badge">04</div>
+            <h3>Standalone Vector SVGs</h3>
+            <p>Zero external dependency rendering. Download crisp scalable vector files or copy direct SVG code straight to your clipboard.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Architecture Gallery Section -->
+      <section id="architectures" class="landing-section">
+        <div class="section-header">
+          <span class="section-tag">// TEMPLATES</span>
+          <h2 class="section-heading">Choose Your Design Layout</h2>
+          <p class="section-desc">Select from 5 distinct visual architectures crafted for software engineers and researchers.</p>
+        </div>
+
+        <div class="arch-grid" style="margin-top:2.5rem;">
+          <div class="arch-card" data-select-arch="bento">
+            <span class="arch-tag">DEFAULT</span>
+            <h4>Bento Grid Architecture</h4>
+            <p>Balanced grid layout organizing identity, skills, philosophy, and stats into clean visual cards.</p>
+            <button class="btn btn-secondary" style="font-size:0.78rem; margin-top:auto;">Open Bento Layout &rarr;</button>
+          </div>
+
+          <div class="arch-card" data-select-arch="hud">
+            <span class="arch-tag">CYBERPUNK</span>
+            <h4>Sci-Fi Telemetry HUD</h4>
+            <p>High-tech HUD telemetry panel featuring status radar, system diagnostics, and vector crosshairs.</p>
+            <button class="btn btn-secondary" style="font-size:0.78rem; margin-top:auto;">Open HUD Layout &rarr;</button>
+          </div>
+
+          <div class="arch-card" data-select-arch="terminal">
+            <span class="arch-tag">CLI DESIGN</span>
+            <h4>Terminal Split Screen</h4>
+            <p>Developer terminal interface with custom prompt styling, system specs, and skill pill tags.</p>
+            <button class="btn btn-secondary" style="font-size:0.78rem; margin-top:auto;">Open Terminal Layout &rarr;</button>
+          </div>
+
+          <div class="arch-card" data-select-arch="vscode">
+            <span class="arch-tag">IDE DESIGN</span>
+            <h4>VS Code Workspace</h4>
+            <p>Replica of VS Code editor tabs, active file explorer sidebar, syntax-highlighted code lines, and status bar.</p>
+            <button class="btn btn-secondary" style="font-size:0.78rem; margin-top:auto;">Open VS Code Layout &rarr;</button>
+          </div>
+
+          <div class="arch-card" data-select-arch="synthwave">
+            <span class="arch-tag">RETRO WAVE</span>
+            <h4>Retro Synthwave</h4>
+            <p>Vibrant synthwave aesthetics featuring vector sun grid lines and high-contrast neon accents.</p>
+            <button class="btn btn-secondary" style="font-size:0.78rem; margin-top:auto;">Open Synthwave Layout &rarr;</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Community Showcase Section -->
+      <section id="showcase" class="landing-section">
+        <div class="section-header">
+          <span class="section-tag">// COMMUNITY SHOWCASE</span>
+          <h2 class="section-heading">Featured Developer Banners</h2>
+          <p class="section-desc">Developers using GitHub Profile Banner Studio for their profile READMEs.</p>
+        </div>
+
+        <div class="showcase-grid" style="margin-top:2.5rem;">
+          <div class="showcase-card">
+            <div class="showcase-user">
+              <img src="https://github.com/abishek-1611.png" class="showcase-avatar" alt="Abishekk" />
+              <div class="showcase-info">
+                <h4>Abishekk</h4>
+                <p>Data &amp; Developer</p>
+              </div>
+            </div>
+            <p style="font-size:0.85rem; color:var(--text-muted);">"Featured custom vector Bento Grid banner on GitHub profile."</p>
+            <a href="https://github.com/abishek-1611" target="_blank" class="btn btn-secondary" style="font-size:0.75rem; text-decoration:none; margin-top:auto;">GitHub Profile &rarr;</a>
+          </div>
+
+          <div class="showcase-card">
+            <div class="showcase-user">
+              <img src="https://github.com/joshua-2811.png" class="showcase-avatar" alt="Joshua Dass" />
+              <div class="showcase-info">
+                <h4>Joshua Dass</h4>
+                <p>Software Engineer</p>
+              </div>
+            </div>
+            <p style="font-size:0.85rem; color:var(--text-muted);">"Using Sci-Fi Telemetry HUD banner layout on main GitHub repo."</p>
+            <a href="https://github.com/joshua-2811" target="_blank" class="btn btn-secondary" style="font-size:0.75rem; text-decoration:none; margin-top:auto;">GitHub Profile &rarr;</a>
+          </div>
+
+          <div class="showcase-card">
+            <div class="showcase-user">
+              <img src="https://github.com/bhoopesh-11.png" class="showcase-avatar" alt="Bhoopesh R" />
+              <div class="showcase-info">
+                <h4>Bhoopesh R</h4>
+                <p>Full-Stack Developer</p>
+              </div>
+            </div>
+            <p style="font-size:0.85rem; color:var(--text-muted);">"Generated custom VS Code IDE banner layout for GitHub profile."</p>
+            <a href="https://github.com/bhoopesh-11" target="_blank" class="btn btn-secondary" style="font-size:0.75rem; text-decoration:none; margin-top:auto;">GitHub Profile &rarr;</a>
+          </div>
+
+          <div class="showcase-card">
+            <div class="showcase-user">
+              <img src="https://github.com/bp2910.png" class="showcase-avatar" alt="S Barani Prasath" />
+              <div class="showcase-info">
+                <h4>S Barani Prasath</h4>
+                <p>Open Source Contributor</p>
+              </div>
+            </div>
+            <p style="font-size:0.85rem; color:var(--text-muted);">"Created terminal split vector banner for developer profile."</p>
+            <a href="https://github.com/bp2910" target="_blank" class="btn btn-secondary" style="font-size:0.75rem; text-decoration:none; margin-top:auto;">GitHub Profile &rarr;</a>
+          </div>
+        </div>
+      </section>
+    </div>
+  `;
+}
+
+function renderStudioHTML() {
+  return `
     <div class="main-container">
       <div class="preview-card">
         <div class="preview-header">
@@ -807,6 +1045,10 @@ function renderApp() {
           <span style="font-size:0.75rem; color:var(--text-muted); font-family:var(--font-mono)">1180 × 610 px • SVG Vector</span>
         </div>
         <div class="svg-wrapper" id="svgPreview"></div>
+        <div style="display:flex; gap:0.75rem; margin-top:0.5rem;">
+          <button class="btn btn-secondary" id="btnCopyCode" style="flex:1;">📋 Copy SVG Code</button>
+          <button class="btn btn-primary" id="btnDownload" style="flex:1;">⚡ Download SVG</button>
+        </div>
       </div>
 
       <div class="editor-card">
@@ -926,17 +1168,84 @@ function renderApp() {
       </div>
     </div>
   `;
-
-  updatePreview();
-  attachEvents();
 }
 
 function updatePreview() {
-  const svgCode = generateSVG(state);
-  document.getElementById('svgPreview').innerHTML = svgCode;
+  const wrapper = document.getElementById('svgPreview');
+  if (wrapper) {
+    wrapper.innerHTML = generateSVG(state);
+  }
 }
 
-function attachEvents() {
+function switchView(newView) {
+  state.currentView = newView;
+  renderApp();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function attachGlobalEvents() {
+  // Navigation Bar Events
+  const brandEl = document.getElementById('navBrand');
+  if (brandEl) brandEl.addEventListener('click', () => switchView('landing'));
+
+  const btnTabLanding = document.getElementById('tabLanding');
+  const btnTabStudio = document.getElementById('tabStudio');
+  const btnNavHome = document.getElementById('navHome');
+
+  if (btnTabLanding) btnTabLanding.addEventListener('click', () => switchView('landing'));
+  if (btnTabStudio) btnTabStudio.addEventListener('click', () => switchView('studio'));
+  if (btnNavHome) btnNavHome.addEventListener('click', () => switchView('landing'));
+
+  const scrollToSection = (id) => {
+    if (state.currentView !== 'landing') {
+      state.currentView = 'landing';
+      renderApp();
+    }
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }, 50);
+  };
+
+  const navFeatures = document.getElementById('navFeatures');
+  const navArch = document.getElementById('navArchitectures');
+  const navShowcase = document.getElementById('navShowcase');
+
+  if (navFeatures) navFeatures.addEventListener('click', () => scrollToSection('features'));
+  if (navArch) navArch.addEventListener('click', () => scrollToSection('architectures'));
+  if (navShowcase) navShowcase.addEventListener('click', () => scrollToSection('showcase'));
+
+  // Landing Page Hero Action Events
+  const btnLaunchHero = document.getElementById('btnLaunchStudioHero');
+  const btnCustomizeInStudio = document.getElementById('btnCustomizeInStudio');
+  if (btnLaunchHero) btnLaunchHero.addEventListener('click', () => switchView('studio'));
+  if (btnCustomizeInStudio) btnCustomizeInStudio.addEventListener('click', () => switchView('studio'));
+
+  // Hero Preview Selector Buttons
+  document.querySelectorAll('.preset-btn[data-hero-layout]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      document.querySelectorAll('.preset-btn[data-hero-layout]').forEach(b => b.classList.remove('active'));
+      e.target.classList.add('active');
+      state.layout = e.target.dataset.heroLayout;
+      updatePreview();
+    });
+  });
+
+  // Architectures Cards Selector
+  document.querySelectorAll('.arch-card[data-select-arch]').forEach(card => {
+    card.addEventListener('click', (e) => {
+      state.layout = card.dataset.selectArch;
+      switchView('studio');
+    });
+  });
+
+  // Studio Events (if in studio view)
+  if (state.currentView === 'studio') {
+    attachStudioEvents();
+  }
+}
+
+function attachStudioEvents() {
   const btnFetch = document.getElementById('btnFetchProfile');
   const inputFetch = document.getElementById('inputGithubFetch');
   if (btnFetch && inputFetch) {
@@ -1021,24 +1330,30 @@ function attachEvents() {
 
   updateSkillsUI();
 
-  document.getElementById('btnCopyCode').addEventListener('click', () => {
-    const svgCode = generateSVG(state);
-    navigator.clipboard.writeText(svgCode).then(() => {
-      showToast('SVG Code copied to clipboard!');
+  const btnCopyCode = document.getElementById('btnCopyCode');
+  if (btnCopyCode) {
+    btnCopyCode.addEventListener('click', () => {
+      const svgCode = generateSVG(state);
+      navigator.clipboard.writeText(svgCode).then(() => {
+        showToast('SVG Code copied to clipboard!');
+      });
     });
-  });
+  }
 
-  document.getElementById('btnDownload').addEventListener('click', () => {
-    const svgCode = generateSVG(state);
-    const blob = new Blob([svgCode], { type: 'image/svg+xml' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${state.name.toLowerCase().replace(/\s+/g, '-')}-${state.layout}-banner.svg`;
-    a.click();
-    URL.revokeObjectURL(url);
-    showToast(`Downloaded ${state.layout} SVG banner!`);
-  });
+  const btnDownload = document.getElementById('btnDownload');
+  if (btnDownload) {
+    btnDownload.addEventListener('click', () => {
+      const svgCode = generateSVG(state);
+      const blob = new Blob([svgCode], { type: 'image/svg+xml' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${state.name.toLowerCase().replace(/\s+/g, '-')}-${state.layout}-banner.svg`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast(`Downloaded ${state.layout} SVG banner!`);
+    });
+  }
 }
 
 function updateSkillsUI() {
@@ -1078,3 +1393,4 @@ document.addEventListener('DOMContentLoaded', () => {
   renderApp();
   syncAvatarBase64();
 });
+
