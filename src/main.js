@@ -47,22 +47,22 @@ const THEMES = {
 const state = {
   layout: 'bento',
   theme: 'nordic_navy',
-  name: 'Leander Antony',
-  primaryRole: 'AI & Data Science Student',
-  subtitle: '// AI/ML student & full-stack dev',
+  name: 'Alex Rivera',
+  primaryRole: 'Full-Stack Developer & Open Source Builder',
+  subtitle: '// Building modern web apps & scalable tools',
   statusText: 'available for opportunities',
-  avatarUrl: 'https://github.com/Leander-Antony.png',
+  avatarUrl: 'https://github.com/octocat.png',
   avatarDataUrl: '',
-  terminalTitle: '~/leander-antony — zsh',
-  headline: "Hi, I'm Leander Antony",
-  location: 'India',
-  education: 'B.Tech, Artificial Intelligence & Data Science',
-  focus: 'LLM Text Game & Advanced ML Tools',
-  githubUser: 'Leander-Antony',
-  email: 'leander.antony2023@gmail.com',
-  quote: 'When you decided to go to the sea, it was your own decision.',
-  quoteAuthor: 'Roronoa Zoro (One Piece)',
-  selectedSkills: ['Python', 'PyTorch', 'TensorFlow', 'JavaScript', 'React', 'Svelte', 'MySQL', 'Docker', 'Git', 'Pandas', 'Flask'],
+  terminalTitle: '~/alexrivera — zsh',
+  headline: "Hi, I'm Alex Rivera",
+  location: 'San Francisco, CA',
+  education: 'B.S. Computer Science & Engineering',
+  focus: 'Distributed Systems & Modern Web Frameworks',
+  githubUser: 'alexrivera',
+  email: 'alex.rivera@example.com',
+  quote: 'Code is like poetry; it should be short and concise.',
+  quoteAuthor: 'Santosh Kalwar',
+  selectedSkills: ['Python', 'JavaScript', 'TypeScript', 'React', 'Node.js', 'Docker', 'PostgreSQL', 'Git'],
   availableSkills: [
     'Python', 'PyTorch', 'TensorFlow', 'JavaScript', 'TypeScript', 'React', 'Svelte', 'Vue',
     'Node.js', 'Flask', 'Django', 'FastAPI', 'MySQL', 'PostgreSQL', 'MongoDB', 'Docker',
@@ -959,7 +959,8 @@ function attachEvents() {
       }
       inputAddSkill.value = '';
       showToast(`Added custom skill: ${val}`);
-      renderApp();
+      updateSkillsUI();
+      updatePreview();
     }
   };
   if (btnAddSkill && inputAddSkill) {
@@ -1018,19 +1019,7 @@ function attachEvents() {
   bindInput('inputQuote', 'quote');
   bindInput('inputQuoteAuthor', 'quoteAuthor');
 
-  document.querySelectorAll('.pill-tag').forEach(tag => {
-    tag.addEventListener('click', (e) => {
-      const skill = e.target.dataset.skill;
-      if (state.selectedSkills.includes(skill)) {
-        state.selectedSkills = state.selectedSkills.filter(s => s !== skill);
-        e.target.classList.remove('selected');
-      } else {
-        state.selectedSkills.push(skill);
-        e.target.classList.add('selected');
-      }
-      renderApp();
-    });
-  });
+  updateSkillsUI();
 
   document.getElementById('btnCopyCode').addEventListener('click', () => {
     const svgCode = generateSVG(state);
@@ -1049,6 +1038,39 @@ function attachEvents() {
     a.click();
     URL.revokeObjectURL(url);
     showToast(`Downloaded ${state.layout} SVG banner!`);
+  });
+}
+
+function updateSkillsUI() {
+  const container = document.getElementById('skillsContainer');
+  const badge = document.querySelector('.badge-skills-count');
+  
+  if (badge) {
+    badge.textContent = `${state.selectedSkills.length} Selected`;
+  }
+  
+  if (!container) return;
+
+  container.innerHTML = state.availableSkills.map(skill => {
+    const isSel = state.selectedSkills.includes(skill);
+    return `<span class="pill-tag ${isSel ? 'selected' : ''}" data-skill="${escapeXML(skill)}">${escapeXML(skill)}</span>`;
+  }).join('');
+
+  container.querySelectorAll('.pill-tag').forEach(tag => {
+    tag.addEventListener('click', (e) => {
+      const skill = e.target.dataset.skill;
+      if (state.selectedSkills.includes(skill)) {
+        state.selectedSkills = state.selectedSkills.filter(s => s !== skill);
+        e.target.classList.remove('selected');
+      } else {
+        state.selectedSkills.push(skill);
+        e.target.classList.add('selected');
+      }
+      if (badge) {
+        badge.textContent = `${state.selectedSkills.length} Selected`;
+      }
+      updatePreview();
+    });
   });
 }
 

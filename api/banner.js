@@ -1,16 +1,16 @@
-// Vercel Serverless API Endpoint: /api/banner?username=Leander-Antony&layout=bento&theme=nordic_navy
+// Vercel Serverless API Endpoint: /api/banner?username=octocat&layout=bento&theme=nordic_navy
 
 export default async function handler(req, res) {
   const {
-    username = 'Leander-Antony',
-    name = 'Leander Antony',
-    subtitle = '// AI/ML student & full-stack dev',
+    username = 'octocat',
+    name = 'Alex Rivera',
+    subtitle = '// Full-stack dev & open source creator',
     statusText = 'available for opportunities',
     layout = 'bento',
     theme = 'nordic_navy',
-    location = 'India',
-    education = 'B.Tech AI & Data Science',
-    focus = 'LLM Story Engine & ML Tools'
+    location = 'San Francisco, CA',
+    education = 'B.S. Computer Science & Engineering',
+    focus = 'Distributed Systems & Modern Web Frameworks'
   } = req.query;
 
   const avatarUrl = `https://github.com/${username}.png`;
